@@ -31,6 +31,9 @@ namespace ChiefEngine {
 			void Clear() const;
 			void Present() const;
 
+			bool BeginFrame();
+			bool EndFrame() const;
+
 			void SetColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha = 255) const;
 			void SetColorFloat(float red, float green, float blue, float alpha = 1.0f) const;
 			void SetColorVector(Color color, float alpha = 1.0f) const;
@@ -69,9 +72,14 @@ namespace ChiefEngine {
 		private:
 			SDL_Window* m_window = nullptr;
 			SDL_Renderer* m_renderer = nullptr;
-			Vector2 m_window_size = { 0.0f };
+
+			SDL_GPUDevice* m_gpuDevice = nullptr;
+			SDL_GPURenderPass* m_renderPass = nullptr;
+			SDL_GPUCommandBuffer* m_commandBuffer = nullptr;
 
 			bool m_cameraEnabled = false;
 			Vector2 m_camera = { 0.0f };
+
+			Vector2 m_window_size = { 0.0f };
 	};
 }

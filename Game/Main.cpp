@@ -36,13 +36,13 @@ int main() {
         float dt = G_Engine().GetTime().getDeltaTime();
 
         // RENDER
-        G_Engine().GetRenderer().SetColor(0, 0, 0); // Set render draw color to black
-        G_Engine().GetRenderer().Clear(); // Clear the renderer 
+        G_Engine().GetRenderer().BeginFrame();
 
         G_Engine().GetParticleSystem().Draw(G_Engine().GetRenderer());
 
-        G_Engine().GetRenderer().Present(); // Render the screen
+        G_Engine().GetRenderer().EndFrame(); // Render the screen
     }
+
     // SHUTDOWN
     G_Engine().Shutdown();
 
