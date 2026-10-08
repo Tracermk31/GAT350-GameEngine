@@ -212,6 +212,15 @@
     <ClInclude Include="Components\SpriteAnimatorRendererComponent.h">
       <Filter>Components\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Pipeline.h">
+      <Filter>Renderer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Shader.h">
+      <Filter>Renderer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\VertexBuffer.h">
+      <Filter>Renderer\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Components\CircleColliderComponent.cpp">
@@ -296,6 +305,15 @@
     </ClCompile>
     <ClCompile Include="Components\SpriteAnimatorRendererComponent.cpp">
       <Filter>Components\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Pipeline.cpp">
+      <Filter>Renderer\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Shader.cpp">
+      <Filter>Renderer\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\VertexBuffer.cpp">
+      <Filter>Renderer\Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
