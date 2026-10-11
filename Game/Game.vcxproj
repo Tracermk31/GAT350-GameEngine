@@ -196,15 +196,15 @@
     <ClInclude Include="Assets.h" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\Shaders\color.frag.hlsl">
-      <FileType>Document</FileType>
-    </CustomBuild>
-    <CustomBuild Include="..\Shaders\position.vert.hlsl">
-      <FileType>Document</FileType>
-    </CustomBuild>
+    <None Include="..\Tools\compile_shaders.bat" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Tools\compile_shaders.bat" />
+    <CustomBuild Include="..\Tools\Shaders\color.frag.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="..\Tools\Shaders\position.vert.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

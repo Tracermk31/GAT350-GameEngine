@@ -23,16 +23,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\Shaders\color.frag.hlsl">
-      <Filter>Assets\Shaders</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\Shaders\position.vert.hlsl">
-      <Filter>Assets\Shaders</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\Tools\compile_shaders.bat">
       <Filter>Tools</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\Tools\Shaders\color.frag.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\Tools\Shaders\position.vert.hlsl">
+      <Filter>Assets\Shaders</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
