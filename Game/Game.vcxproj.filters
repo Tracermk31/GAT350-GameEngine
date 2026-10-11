@@ -13,6 +13,9 @@
     <Filter Include="Assets\Shaders">
       <UniqueIdentifier>{7e12a3ac-01a0-41c5-ac9c-7ad397994447}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{991a07d3-dd9f-4a0d-abe7-ab8e27827d73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assets.h">
@@ -26,5 +29,10 @@
     <CustomBuild Include="..\Shaders\position.vert.hlsl">
       <Filter>Assets\Shaders</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Tools\compile_shaders.bat">
+      <Filter>Tools</Filter>
+    </None>
   </ItemGroup>
 </Project>

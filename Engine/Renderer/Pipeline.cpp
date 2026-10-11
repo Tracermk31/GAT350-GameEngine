@@ -18,7 +18,7 @@ namespace ChiefEngine {
 		// the format must match the window's swapchain texture format
 		std::array colorTargetDescriptions {
 			SDL_GPUColorTargetDescription {
-				.format = {SDL_GetGPUSwapchainTextureFormat(m_gpuDevice, window)} // todo: get the format with SDL_GetGPUSwapchainTextureFormat(device, window)
+				.format = SDL_GetGPUSwapchainTextureFormat(m_gpuDevice, window) // todo: get the format with SDL_GetGPUSwapchainTextureFormat(device, window)
 			}
 		};
 

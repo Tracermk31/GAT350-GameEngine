@@ -14,8 +14,8 @@ const float SCREEN_HEIGHT = 1200.0f;
 
 std::vector<Vector3> vertices {
     Vector3 { -1.0f, -1.0f, 0.0f}, // Bottom-Left
-    Vector3 {  1.0f, -1.0f, 0.0f}, // Bottom-Right
-    Vector3 {  0.0f,  1.0f, 0.0f}, // Top-Middle
+    Vector3 {  1.0f, -0.75f, 0.0f}, // Bottom-Right
+    Vector3 {  -0.6f,  1.0f, 0.0f}, // Top-Middle
 };
 
 int main() {
