@@ -11,7 +11,7 @@
 #include "Math/EngineMath.h"
 
 namespace ChiefEngine {
-	//FACTORY_REGISTER(Box2DPhysicsComponent)
+	FACTORY_REGISTER(Box2DPhysicsComponent)
 
 	Box2DPhysicsComponent::Box2DPhysicsComponent(const Box2DPhysicsComponent& other) {
 		m_bodyDef = other.m_bodyDef;

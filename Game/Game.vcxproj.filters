@@ -27,12 +27,4 @@
       <Filter>Tools</Filter>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="..\Tools\Shaders\color.frag.hlsl">
-      <Filter>Assets\Shaders</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\Tools\Shaders\position.vert.hlsl">
-      <Filter>Assets\Shaders</Filter>
-    </CustomBuild>
-  </ItemGroup>
 </Project>
