@@ -44,9 +44,9 @@ namespace ChiefEngine {
         const Transform& GetTransform() const { return this->m_transform; }
         void SetTransform(const Transform& transform) { m_transform = transform; }
 
-        void SetPosition(const Vector2& position) { m_transform.position = position; }
-        void SetRotation(float rotation) { m_transform.rotation = rotation; }
-        void SetScale(float scale) { m_transform.scale = scale; }
+        void SetPosition(const glm::vec3& position) { m_transform.position = position; }
+        void SetRotation(const glm::vec3& rotation) { m_transform.rotation = rotation; }
+        void SetScale(const glm::vec3& scale) { m_transform.scale = scale; }
 
         void BeDestroyed() { m_destroyed = true; }
         bool IsDestroyed() const { return m_destroyed; }

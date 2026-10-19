@@ -2,8 +2,6 @@
 
 #include "Font.h"
 
-#include "Math/Vector3.h"
-
 struct SDL_Texture;
 
 namespace ChiefEngine {
@@ -15,7 +13,7 @@ namespace ChiefEngine {
 		Text(resource_t<Font> font) : m_font{ font } {}
 		~Text();
 
-		bool Create(Renderer& renderer, const std::string& text, const Color& color);
+		bool Create(Renderer& renderer, const std::string& text, const glm::vec3& color);
 		void Draw(Renderer& renderer, float x, float y) const;
 
 	private:

@@ -2,8 +2,9 @@
 
 #include "Model.h"
 #include "Texture.h"
-#include "Renderer.h"
 #include "Pipeline.h"
+#include "Renderer.h"
+#include "IndexBuffer.h"
 #include "VertexBuffer.h"
 
 #include "Math/Rect.h"
@@ -82,7 +83,7 @@ namespace ChiefEngine {
     /// </summary>
     /// <param name="color"></param>
     /// <param name="alpha"></param>
-    void Renderer::SetColorVector(Color color, float alpha) const {
+    void Renderer::SetColorVector(glm::vec3 color, float alpha) const {
         SDL_SetRenderDrawColorFloat(m_renderer, color.r, color.g, color.b, alpha);
     }
 
@@ -199,40 +200,9 @@ namespace ChiefEngine {
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="mesh"></param>
-    /// <param name="transform"></param>
-    void Renderer::DrawMesh(const class Mesh& mesh, const struct Transform& transform) const {
-        SetColor((Uint8)mesh.GetColor().r, (Uint8)mesh.GetColor().g, (Uint8)mesh.GetColor().b);
-
-        auto& points = mesh.GetPoints();
-        auto numPoints = mesh.GetPoints().size();
-
-        for (int index = 0; (index + 1) < numPoints; index++) {
-            Vector2 v1 = points[index];
-            Vector2 v2 = points[index + 1];
-
-            v1 *= transform.scale;
-            v2 *= transform.scale;
-
-            v1 = v1.Rotate(transform.rotation * DEGREE_TO_RADIAN);
-            v2 = v2.Rotate(transform.rotation * DEGREE_TO_RADIAN);
-
-            v1 += transform.position;
-            v2 += transform.position;
-
-            DrawLine(v1.x, v1.y,v2.x, v2.y);
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="model"></param>
     /// <param name="transform"></param>
     void Renderer::DrawModel(const class Model& model, const struct Transform& transform) const {
-        for (auto mesh : model.GetMeshes()) {
-            DrawMesh(mesh, transform);
-        }
     }
 
     /// <summary>
@@ -255,100 +225,100 @@ namespace ChiefEngine {
     /// <param name="scale"></param>
     /// <param name="flipHorizontal"></param>
     /// <param name="flipVertical"></param>
-    void Renderer::DrawTexture(const Texture& texture, float x, float y, float angle, float scale, bool flipHorizontal, bool flipVertical, const Vector2& origin) const {
-        Vector2 size = texture.GetSize();
+    //void Renderer::DrawTexture(const Texture& texture, float x, float y, float angle, float scale, bool flipHorizontal, bool flipVertical, const glm::vec2& origin) const {
+    //    glm::vec2 size = texture.GetSize();
 
-        float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
-        float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
-        
-        SDL_FRect destRect;
-        destRect.w = size.x * scale;
-        destRect.h = size.y * scale;
-        
-        destRect.x = x - cameraX - (destRect.w * origin.x);
-        destRect.y = y - cameraY - (destRect.h * origin.y);
+    //    float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
+    //    float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
+    //    
+    //    SDL_FRect destRect;
+    //    destRect.w = size.x * scale;
+    //    destRect.h = size.y * scale;
+    //    
+    //    destRect.x = x - cameraX - (destRect.w * origin.x);
+    //    destRect.y = y - cameraY - (destRect.h * origin.y);
 
-        // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-        SDL_RenderTextureRotated(m_renderer, texture.m_texture, nullptr, &destRect, angle, nullptr, 
-            (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
-    }
+    //    // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
+    //    SDL_RenderTextureRotated(m_renderer, texture.m_texture, nullptr, &destRect, angle, nullptr, 
+    //        (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
+    //}
 
-    void Renderer::DrawTexture(const Texture& texture, const Transform& transform, bool flipHorizontal, bool flipVertical, const Vector2& origin) const {
-        Vector2 size = texture.GetSize();
+    //void Renderer::DrawTexture(const Texture& texture, const Transform& transform, bool flipHorizontal, bool flipVertical, const glm::vec2& origin) const {
+    //    glm::vec2 size = texture.GetSize();
 
-        float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
-        float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
+    //    float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
+    //    float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
 
-        SDL_FRect destRect;
-        destRect.w = size.x * transform.scale;
-        destRect.h = size.y * transform.scale;
+    //    SDL_FRect destRect;
+    //    destRect.w = size.x * transform.scale;
+    //    destRect.h = size.y * transform.scale;
 
-        destRect.x = transform.position.x - cameraX - (destRect.w * origin.x);
-        destRect.y = transform.position.y - cameraY - (destRect.h * origin.y);
+    //    destRect.x = transform.position.x - cameraX - (destRect.w * origin.x);
+    //    destRect.y = transform.position.y - cameraY - (destRect.h * origin.y);
 
-        // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-        SDL_RenderTextureRotated(m_renderer, texture.m_texture, nullptr, &destRect, transform.rotation, nullptr, 
-            (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
-    }
+    //    // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
+    //    SDL_RenderTextureRotated(m_renderer, texture.m_texture, nullptr, &destRect, transform.rotation, nullptr, 
+    //        (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
+    //}
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="texture"></param>
-    /// <param name="source"></param>
-    /// <param name="angle"></param>
-    /// <param name="scale"></param>
-    /// <param name="flipHorizontal"></param>
-    /// <param name="flipVertical"></param>
-    void Renderer::DrawTexture(const Texture& texture, const Rect& source, float x, float y, float angle, float scale, bool flipHorizontal, bool flipVertical, const Vector2& origin) const {
-        Vector2 size = texture.GetSize();
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    ///// <param name="texture"></param>
+    ///// <param name="source"></param>
+    ///// <param name="angle"></param>
+    ///// <param name="scale"></param>
+    ///// <param name="flipHorizontal"></param>
+    ///// <param name="flipVertical"></param>
+    //void Renderer::DrawTexture(const Texture& texture, const Rect& source, float x, float y, float angle, float scale, bool flipHorizontal, bool flipVertical, const glm::vec2& origin) const {
+    //    glm::vec2 size = texture.GetSize();
 
-        float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
-        float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
+    //    float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
+    //    float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
 
-        SDL_FRect sourceRect;
-        sourceRect.x = source.position.x;
-        sourceRect.y = source.position.y;
+    //    SDL_FRect sourceRect;
+    //    sourceRect.x = source.position.x;
+    //    sourceRect.y = source.position.y;
 
-        sourceRect.w = source.size.x;
-        sourceRect.h = source.size.y;
+    //    sourceRect.w = source.size.x;
+    //    sourceRect.h = source.size.y;
 
-        SDL_FRect destRect;
-        destRect.w = sourceRect.w * scale;
-        destRect.h = sourceRect.h * scale;
+    //    SDL_FRect destRect;
+    //    destRect.w = sourceRect.w * scale;
+    //    destRect.h = sourceRect.h * scale;
 
-        destRect.x = x - cameraX - (destRect.w * origin.x);
-        destRect.y = y - cameraY - (destRect.h * origin.y);
+    //    destRect.x = x - cameraX - (destRect.w * origin.x);
+    //    destRect.y = y - cameraY - (destRect.h * origin.y);
 
-        // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-        SDL_RenderTextureRotated(m_renderer, texture.m_texture, &sourceRect, &destRect, angle, nullptr,
-            (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
-    }
+    //    // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
+    //    SDL_RenderTextureRotated(m_renderer, texture.m_texture, &sourceRect, &destRect, angle, nullptr,
+    //        (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
+    //}
 
-    void Renderer::DrawTexture(const Texture& texture, const Rect& source, const Transform& transform, bool flipHorizontal, bool flipVertical, const Vector2& origin) const {
-        Vector2 size = texture.GetSize();
+    //void Renderer::DrawTexture(const Texture& texture, const Rect& source, const Transform& transform, bool flipHorizontal, bool flipVertical, const glm::vec2& origin) const {
+    //    glm::vec2 size = texture.GetSize();
 
-        float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
-        float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
+    //    float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
+    //    float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
 
-        SDL_FRect sourceRect;
-        sourceRect.x = source.position.x;
-        sourceRect.y = source.position.y;
+    //    SDL_FRect sourceRect;
+    //    sourceRect.x = source.position.x;
+    //    sourceRect.y = source.position.y;
 
-        sourceRect.w = source.size.x;
-        sourceRect.h = source.size.y;
+    //    sourceRect.w = source.size.x;
+    //    sourceRect.h = source.size.y;
 
-        SDL_FRect destRect;
-        destRect.w = sourceRect.w * transform.scale;
-        destRect.h = sourceRect.h * transform.scale;
+    //    SDL_FRect destRect;
+    //    destRect.w = sourceRect.w * transform.scale;
+    //    destRect.h = sourceRect.h * transform.scale;
 
-        destRect.x = transform.position.x - cameraX - (destRect.w * origin.x);
-        destRect.y = transform.position.y - cameraY - (destRect.h * origin.y);
+    //    destRect.x = transform.position.x - cameraX - (destRect.w * origin.x);
+    //    destRect.y = transform.position.y - cameraY - (destRect.h * origin.y);
 
-        // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-        SDL_RenderTextureRotated(m_renderer, texture.m_texture, &sourceRect, &destRect, transform.rotation, nullptr,
-            (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
-    }
+    //    // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
+    //    SDL_RenderTextureRotated(m_renderer, texture.m_texture, &sourceRect, &destRect, transform.rotation, nullptr,
+    //        (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
+    //}
 
     void Renderer::SetPipeline(const Pipeline& pipeline) {
         // bind the pipeline to the current render pass with SDL_BindGPUGraphicsPipeline(renderPass, gpuPipeline)
@@ -374,6 +344,23 @@ namespace ChiefEngine {
         SDL_BindGPUVertexBuffers( m_renderPass, 0, &binding, 1);
     }
 
+    void Renderer::SetIndexBuffer(const IndexBuffer& indexBuffer) {
+        // describe which buffer to bind and where to start reading from
+        SDL_GPUBufferBinding binding{
+            .buffer = indexBuffer.m_gpuBuffer, // todo: the vertex buffer's gpu buffer
+            .offset = 0  // start reading at the beginning of the buffer
+        };
+
+        // bind the vertex buffer to the current render pass with SDL_BindGPUVertexBuffers()
+        // the draw calls that follow read their vertices from this buffer
+        // parameters:
+        //   render pass   - the current render pass (m_renderPass)
+        //   first slot    - 0, matches the buffer slot set in Pipeline::AddVertexBuffer()
+        //   bindings      - pointer to the binding above
+        //   binding count - 1, we are binding one buffer
+        SDL_BindGPUIndexBuffer(m_renderPass, &binding, SDL_GPU_INDEXELEMENTSIZE_32BIT);
+    }
+
     void Renderer::Draw(uint32_t vertexCount) {
         // draw using the currently bound pipeline and vertex buffer with SDL_DrawGPUPrimitives()
         // parameters:
@@ -383,6 +370,10 @@ namespace ChiefEngine {
         //   first vertex   - 0, start at the first vertex in the buffer
         //   first instance - 0, start at the first instance
         SDL_DrawGPUPrimitives(m_renderPass, vertexCount, 1, 0, 0);
+    }
+
+    void Renderer::DrawIndex(const IndexBuffer& indexBuffer) {
+        SDL_DrawGPUIndexedPrimitives(m_renderPass, indexBuffer.GetIndexCount(), 1, 0, 0, 0);
     }
 
     void Renderer::SetVertexUniform(uint32_t slot, const void* data, uint32_t size) {

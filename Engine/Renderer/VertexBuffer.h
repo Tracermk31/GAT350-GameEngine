@@ -2,6 +2,8 @@
 
 #include "Resources/Resource.h"
 
+#include <vector>
+
 #include <SDL3/SDL.h>
 
 namespace ChiefEngine {
@@ -9,10 +11,10 @@ namespace ChiefEngine {
 	public:
 		~VertexBuffer();
 
-		bool Create(uint32_t vertexCount, uint32_t vertexSize, const uint8_t* data, SDL_GPUDevice* gpuDevice);
+		bool Create(uint32_t vertexCount, uint32_t vertexSize, const uint8_t* data, const class Renderer& renderer);
 		
 		template<typename T>
-		bool Create(const std::vector<T>& vertices, SDL_GPUDevice* gpuDevice);
+		bool Create(const std::vector<T>& vertices, const class Renderer& renderer);
 		
 		uint32_t GetVertexCount() const { return m_vertexCount; }
 
@@ -26,11 +28,11 @@ namespace ChiefEngine {
 	};
 
 	template<typename T>
-	inline bool VertexBuffer::Create(const std::vector<T>& vertices, SDL_GPUDevice* gpuDevice) {
+	inline bool VertexBuffer::Create(const std::vector<T>& vertices, const class Renderer& renderer) {
 		return Create(
 			static_cast<uint32_t>(vertices.size()),
 			sizeof(T),
 			reinterpret_cast<const uint8_t*>(vertices.data()),
-			gpuDevice);
+			renderer);
 	}
 }

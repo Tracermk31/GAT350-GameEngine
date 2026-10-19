@@ -4,9 +4,6 @@
 
 #include "Core/File.h"
 
-#include "Math/Vector2.h"
-#include "Math/Vector3.h"
-
 namespace ChiefEngine::JSON {
     /// <summary>
     /// 
@@ -196,11 +193,11 @@ namespace ChiefEngine::JSON {
     /// <param name="data"></param>
     /// <param name="required"></param>
     /// <returns></returns>
-    bool Read(const value_t& value, const std::string& name, Vector2& data, bool required) {
+    bool Read(const value_t& value, const std::string& name, glm::vec2& data, bool required) {
         // check if the value has the "<name>" and is an array with 2 elements
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray() || value[name.c_str()].Size() != 2) {
             if (required) {
-                std::cerr << "Could not read JSON value (Vector2):" << name << std::endl;
+                std::cerr << "Could not read JSON value (glm::vec2):" << name << std::endl;
             }
             return false;
         }
@@ -211,7 +208,7 @@ namespace ChiefEngine::JSON {
         for (rapidjson::SizeType i = 0; i < array.Size(); i++) {
             if (!array[i].IsNumber()) {
                 if (required) {
-                    std::cerr << "Could not read JSON value (Vector2):" << name << std::endl;
+                    std::cerr << "Could not read JSON value (glm::vec2):" << name << std::endl;
                 }
                 return false;
             }
@@ -231,11 +228,11 @@ namespace ChiefEngine::JSON {
     /// <param name="data"></param>
     /// <param name="required"></param>
     /// <returns></returns>
-    bool Read(const value_t& value, const std::string& name, Vector3& data, bool required) {
+    bool Read(const value_t& value, const std::string& name, glm::vec3& data, bool required) {
         // check if the value has the "<name>" and is an array with 2 elements
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray() || value[name.c_str()].Size() != 3) {
             if (required) {
-                std::cerr << "Could not read JSON value (Vector3):" << name << std::endl;
+                std::cerr << "Could not read JSON value (glm::vec3):" << name << std::endl;
             }
             return false;
         }
@@ -247,7 +244,7 @@ namespace ChiefEngine::JSON {
         for (rapidjson::SizeType i = 0; i < array.Size(); i++) {
             if (!array[i].IsNumber()) {
                 if (required) {
-                    std::cerr << "Could not read JSON value (Vector3):" << name << std::endl;
+                    std::cerr << "Could not read JSON value (glm::vec3):" << name << std::endl;
                 }
                 return false;
             }

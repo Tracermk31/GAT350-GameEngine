@@ -1,7 +1,6 @@
 #include "pch.h"
 
 #include "Engine.h"
-
 #include "Texture.h"
 #include "TextureFrames.h"
 
@@ -41,8 +40,8 @@ namespace ChiefEngine {
 			return false;
 		}
 
-		Vector2 textureSize = m_texture->GetSize();
-		m_frameSize = textureSize / Vector2{ (m_numberOfColumns), (m_numberOfRows) };
+		glm::vec2 textureSize = m_texture->GetSize();
+		m_frameSize = textureSize / glm::vec2{ (m_numberOfColumns), (m_numberOfRows) };
 
 		return true;
 	}

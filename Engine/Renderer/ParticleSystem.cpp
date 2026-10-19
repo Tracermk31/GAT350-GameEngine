@@ -51,7 +51,7 @@ namespace ChiefEngine{
 		for (auto& particle : m_particles) {
 			if (particle.active) {
 				if (particle.particleTexture) {
-					renderer.DrawTexture(*particle.particleTexture, particle.position.x, particle.position.y, 0.0f, particle.scale);
+					//renderer.DrawTexture(*particle.particleTexture, particle.position.x, particle.position.y, 0.0f, particle.scale);
 				} else {
 					renderer.SetColorVector(particle.color);
 					renderer.DrawPoint(particle.position.x, particle.position.y);

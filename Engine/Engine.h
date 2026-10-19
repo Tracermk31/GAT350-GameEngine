@@ -1,5 +1,12 @@
 #pragma once
 
+#define GLM_ENABLE_EXPERIMENTAL
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/transform.hpp>
+
 #include "Audio/Audio.h"
 
 #include "Framework/Actor.h"
@@ -14,17 +21,11 @@
 #include "Core/EngineTime.h"
 #include "Core/EngineStrings.h"
 
-#include "Components/Box2DPhysicsComponent.h"
-#include "Components/TilemapRendererComponent.h"
-
 #include "Math/EngineMath.h"
-
-#include "Physics/Physics.h"
 
 #include "Renderer/Font.h"
 #include "Renderer/Text.h"
 #include "Renderer/Texture.h"
-#include "Renderer/Tilemap.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/ParticleSystem.h"
 #include "Renderer/TextureFrames.h"
@@ -85,14 +86,14 @@ namespace ChiefEngine {
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		Physics& GetPhysics() { return m_physics; }
+		//Physics& GetPhysics() { return m_physics; }
 	private:
 		ParticleSystem m_particleSystem;
 		Time m_time;
 		Input m_input;
 		Renderer m_renderer;
 		Audio m_audioSystem;
-		Physics m_physics;
+		//Physics m_physics;
 	};
 
 	inline Engine& G_Engine() { return Engine::Instance(); }

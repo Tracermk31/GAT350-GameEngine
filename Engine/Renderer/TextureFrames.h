@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Math/Rect.h"
-#include "Math/Vector2.h"
 
 #include "Renderer/Texture.h"
 
@@ -17,7 +16,7 @@ namespace ChiefEngine {
 		unsigned short m_startFrame = 0;
 		unsigned short m_totalFrames = 0;
 
-		Vector2 m_frameSize{ 0.0f };
+		glm::vec2 m_frameSize{ 0.0f };
 		resource_t<Texture> m_texture;
 	public:
 		bool Load(const std::string& filename, class Renderer& renderer);

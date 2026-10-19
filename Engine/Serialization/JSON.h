@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Math/Vector2.h"
-#include "Math/Vector3.h"
-
 #include <string>
 #include <vector>
+
+#include <glm/gtx/transform.hpp>
 
 #include <rapidjson/document.h>
 
@@ -34,7 +33,7 @@ namespace ChiefEngine::JSON {
 	bool Read(const value_t& value, const std::string& name, bool& data, bool required = false);
 	bool Read(const value_t& value, const std::string& name, float& data, bool required = false);
 	bool Read(const value_t& value, const std::string& name, std::string& data, bool required = false);
-	bool Read(const value_t& value, const std::string& name, Vector2& data, bool required = false);
-	bool Read(const value_t& value, const std::string& name, Vector3& data, bool required = false);
+	bool Read(const value_t& value, const std::string& name, glm::vec2& data, bool required = false);
+	bool Read(const value_t& value, const std::string& name, glm::vec3& data, bool required = false);
 	bool Read(const value_t& value, const std::string& name, std::vector<int>& data, bool required = false);
 }

@@ -4,7 +4,7 @@
 #include "Engine.h"
 
 namespace ChiefEngine {
-	PhysicsBody::PhysicsBody(const Transform& transform, const Vector2& size, const PhysicsBodyDef& def, const Physics& physics) {
+	PhysicsBody::PhysicsBody(const Transform& transform, const glm::vec2& size, const PhysicsBodyDef& def, const Physics& physics) {
 		b2BodyDef bodyDef = b2DefaultBodyDef();
 
 		// set body definition
@@ -58,11 +58,11 @@ namespace ChiefEngine {
 		b2DestroyBody(m_bodyId);
 	}
 
-	Vector2 PhysicsBody::GetPosition() const {
-		return Physics::WorldToScreen(Physics::ToVector2(b2Body_GetPosition(m_bodyId)));
+	glm::vec2 PhysicsBody::GetPosition() const {
+		return Physics::WorldToScreen(Physics::Toglm::vec2(b2Body_GetPosition(m_bodyId)));
 	}
 
-	void PhysicsBody::SetPosition(const Vector2& position) const {
+	void PhysicsBody::SetPosition(const glm::vec2& position) const {
 		b2Vec2 b2Position = Physics::ToB2(Physics::ScreenToWorld(position));
 		b2Rot b2Rotation = b2Body_GetRotation(m_bodyId);
 
@@ -87,7 +87,7 @@ namespace ChiefEngine {
 		);
 	}
 
-	void PhysicsBody::ApplyForce(const Vector2& force) {
+	void PhysicsBody::ApplyForce(const glm::vec2& force) {
 		b2Body_ApplyForceToCenter(m_bodyId, Physics::ToB2(Physics::ScreenToWorld(force)), true);
 	}
 
@@ -103,11 +103,11 @@ namespace ChiefEngine {
 		return b2Body_GetAngularVelocity(m_bodyId);;
 	}
 
-	void PhysicsBody::SetVelocity(const Vector2& velocity) {
+	void PhysicsBody::SetVelocity(const glm::vec2& velocity) {
 		b2Body_SetLinearVelocity(m_bodyId, Physics::ToB2(Physics::ScreenToWorld(velocity)));
 	}
 
-	Vector2 PhysicsBody::GetVelocity() {
-		return Physics::WorldToScreen(Physics::ToVector2(b2Body_GetLinearVelocity(m_bodyId)));
+	glm::vec2 PhysicsBody::GetVelocity() {
+		return Physics::WorldToScreen(Physics::Toglm::vec2(b2Body_GetLinearVelocity(m_bodyId)));
 	}
 }

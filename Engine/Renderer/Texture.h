@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Math/Vector2.h"
-
 #include "Resources/Resource.h"
 
 #include <string>
@@ -23,12 +21,12 @@ namespace ChiefEngine {
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		const Vector2 GetSize() const { return m_size; }
+		const glm::vec2 GetSize() const { return m_size; }
 		void SetSize();
 
 		friend Renderer;
 	private:
 		SDL_Texture* m_texture{ nullptr };
-		Vector2 m_size{ 0.0f, 0.0f };
+		glm::vec2 m_size{ 0.0f, 0.0f };
 	};
 }

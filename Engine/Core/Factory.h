@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Framework/Object.h"
 #include "Singleton.h"
 #include "EngineStrings.h"
+
+#include "Framework/Object.h"
 
 #include <map>
 #include <memory>

@@ -17,7 +17,7 @@ namespace ChiefEngine {
 		m_time.Reset();
 		m_audioSystem.Initialize();
 		m_particleSystem.Initialize(5000);
-		m_physics.Initialize();
+		//m_physics.Initialize();
 		return true;
 	};
 
@@ -29,7 +29,7 @@ namespace ChiefEngine {
 		m_renderer.ShutDown();
 		m_audioSystem.Shutdown();
 		m_particleSystem.Shutdown();
-		m_physics.Shutdown();
+		//m_physics.Shutdown();
 	};
 
 	/// <summary>
@@ -40,6 +40,6 @@ namespace ChiefEngine {
 		m_audioSystem.Update();
 		m_time.Tick();
 		m_particleSystem.Update(m_time.getDeltaTime());
-		m_physics.Update(m_time.getDeltaTime());
+		//m_physics.Update(m_time.getDeltaTime());
 	};
 }

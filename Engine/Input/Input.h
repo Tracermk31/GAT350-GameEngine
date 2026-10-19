@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Math/Vector2.h"
-
 #include <vector>
 
 namespace ChiefEngine {
@@ -71,7 +69,7 @@ namespace ChiefEngine {
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		Vector2 GetMousePosition() const { return m_mousePosition; }
+		glm::vec2 GetMousePosition() const { return m_mousePosition; }
 	private:
 		//Keyboard
 		int m_numKeys = 0;
@@ -81,7 +79,7 @@ namespace ChiefEngine {
 		//Mouse
 		uint32_t m_buttonStates = 0;
 		uint32_t m_prevButtonStates = 0;
-		Vector2 m_mousePosition{ 0 };
+		glm::vec2 m_mousePosition{ 0 };
 
 		uint32_t GetButtonBit(MouseButton button) const;
 	};

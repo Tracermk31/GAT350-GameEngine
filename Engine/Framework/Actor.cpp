@@ -82,7 +82,7 @@ namespace ChiefEngine {
         Object::Read(value);
 
         if (JSON_HAS_BY_NAME(value, "transform")) {
-            m_transform.Read(value["transform"]);
+            //m_transform.Read(value["transform"]);
         }
 
         JSON_READ_MEMBER(value, "tag", m_tag);

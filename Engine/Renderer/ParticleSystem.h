@@ -2,9 +2,6 @@
 
 #include "Texture.h"
 
-#include "Math/Vector2.h"
-#include "Math/Vector3.h"
-
 #include <vector>
 
 namespace ChiefEngine {
@@ -14,9 +11,9 @@ namespace ChiefEngine {
 		float lifespan{ 1 };
 		float scale = 1.0f;
 
-		Vector2 position{ 0.0f, 0.0f };
-		Vector2 velocity{ 0.0f, 0.0f };
-		Color color{ 0.0f, 0.0f, 0.0f };
+		glm::vec2 position{ 0.0f, 0.0f };
+		glm::vec2 velocity{ 0.0f, 0.0f };
+		glm::vec3 color{ 0.0f, 0.0f, 0.0f };
 		resource_t<Texture> particleTexture;
 	};
 

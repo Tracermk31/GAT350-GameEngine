@@ -1,47 +1,48 @@
 #pragma once
 
-#include "Mesh.h"
+#include "IndexBuffer.h"
+#include "VertexBuffer.h"
+
+#include "Resources/Resource.h"
+
+#include <memory>
+#include <string>
+#include <vector>
+
+#include <glm/glm.hpp>
+
+// forward declare assimp types so the header doesn't pull in assimp
+struct aiNode;
+struct aiMesh;
+struct aiScene;
 
 namespace ChiefEngine {
-	class Model {
+	class Model : public Resource {
 	public:
-		Model() = default;
-		Model(const std::vector<Mesh>& meshes) : m_meshes{ meshes } {
-			CalculateRadius();
-		}
+		struct Vertex {
+			glm::vec3 position;
+			glm::vec2 texcoord;
+			glm::vec3 normal;
+			glm::vec3 tangent;
+		};
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="mesh"></param>
-		inline void AddMesh(const Mesh& mesh) { 
-			m_meshes.push_back(mesh); 
-			CalculateRadius();
-		}
+		// each mesh owns its own vertex and index buffer
+		struct Mesh {
+			std::unique_ptr<VertexBuffer> vertexBuffer;
+			std::unique_ptr<IndexBuffer> indexBuffer;
+		};
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="meshes"></param>
-		inline void SetMeshes(const std::vector<Mesh>& meshes) { 
-			m_meshes = meshes;
-			CalculateRadius();
-		}
+	public:
+		bool Load(const std::string& filename, const class Renderer& renderer);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		const std::vector<Mesh>& GetMeshes() const { return m_meshes; }
+		// binds and draws every mesh, call between BeginFrame and EndFrame with a pipeline set
+		void Draw(class Renderer& renderer) const;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		inline float GetRadius() const { return m_radius; }
-		void CalculateRadius();
 	private:
-		float m_radius = 0.0f;
+		void ProcessNode(aiNode* node, const aiScene* scene, const class Renderer& renderer);
+		void ProcessMesh(aiMesh* mesh, const aiScene* scene, const class Renderer& renderer);
+
+	private:
 		std::vector<Mesh> m_meshes;
 	};
 }

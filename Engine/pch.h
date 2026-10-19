@@ -7,6 +7,8 @@
 #ifndef PCH_H
 #define PCH_H
 
+#define GLM_ENABLE_EXPERIMENTAL
+
 // add headers that you want to pre-compile here
 #include "Framework\framework.h"
 
@@ -22,10 +24,14 @@
 #include <algorithm>
 
 //Third Party Includes
-#include <Box2D/box2d.h>
 
 #include <fmod.hpp>
 #include <fmod_errors.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include <rapidjson/error/en.h>
 #include <rapidjson/istreamwrapper.h>
