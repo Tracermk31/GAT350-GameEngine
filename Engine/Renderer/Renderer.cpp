@@ -53,6 +53,8 @@ namespace ChiefEngine {
 
         std::cout << "GPU Driver: " << SDL_GetGPUDeviceDriver(m_gpuDevice) << std::endl;
 
+        CreateDepthBuffer();
+
         return true;
     }
 
@@ -123,7 +125,16 @@ namespace ChiefEngine {
             color_target_info.load_op = SDL_GPU_LOADOP_CLEAR;
             color_target_info.store_op = SDL_GPU_STOREOP_STORE;
 
-            m_renderPass = SDL_BeginGPURenderPass(m_commandBuffer, &color_target_info, 1, nullptr);
+            // configure the depth target (This handles the depth sorting)
+            SDL_GPUDepthStencilTargetInfo depthTargetInfo = {};
+            depthTargetInfo.texture = m_depthTexture;
+            depthTargetInfo.clear_depth = 1.0f;
+            depthTargetInfo.load_op = SDL_GPU_LOADOP_CLEAR;
+            depthTargetInfo.store_op = SDL_GPU_STOREOP_DONT_CARE;
+            depthTargetInfo.stencil_load_op = SDL_GPU_LOADOP_DONT_CARE;
+            depthTargetInfo.stencil_store_op = SDL_GPU_STOREOP_DONT_CARE;
+
+            m_renderPass = SDL_BeginGPURenderPass(m_commandBuffer, &color_target_info, 1, &depthTargetInfo);
         }
 
         return true;
@@ -200,14 +211,6 @@ namespace ChiefEngine {
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="model"></param>
-    /// <param name="transform"></param>
-    void Renderer::DrawModel(const class Model& model, const struct Transform& transform) const {
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="string"></param>
@@ -215,110 +218,14 @@ namespace ChiefEngine {
         SDL_RenderDebugText(m_renderer, x, y, string.c_str());
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="texture"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="angle"></param>
-    /// <param name="scale"></param>
-    /// <param name="flipHorizontal"></param>
-    /// <param name="flipVertical"></param>
-    //void Renderer::DrawTexture(const Texture& texture, float x, float y, float angle, float scale, bool flipHorizontal, bool flipVertical, const glm::vec2& origin) const {
-    //    glm::vec2 size = texture.GetSize();
+    void Renderer::SetFragmentTexture(uint32_t slot, const Texture& texture) {
+        SDL_GPUTextureSamplerBinding binding {
+            .texture = texture.m_gpuTexture,
+            .sampler = texture.m_gpuSampler
+        };
 
-    //    float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
-    //    float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
-    //    
-    //    SDL_FRect destRect;
-    //    destRect.w = size.x * scale;
-    //    destRect.h = size.y * scale;
-    //    
-    //    destRect.x = x - cameraX - (destRect.w * origin.x);
-    //    destRect.y = y - cameraY - (destRect.h * origin.y);
-
-    //    // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-    //    SDL_RenderTextureRotated(m_renderer, texture.m_texture, nullptr, &destRect, angle, nullptr, 
-    //        (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
-    //}
-
-    //void Renderer::DrawTexture(const Texture& texture, const Transform& transform, bool flipHorizontal, bool flipVertical, const glm::vec2& origin) const {
-    //    glm::vec2 size = texture.GetSize();
-
-    //    float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
-    //    float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
-
-    //    SDL_FRect destRect;
-    //    destRect.w = size.x * transform.scale;
-    //    destRect.h = size.y * transform.scale;
-
-    //    destRect.x = transform.position.x - cameraX - (destRect.w * origin.x);
-    //    destRect.y = transform.position.y - cameraY - (destRect.h * origin.y);
-
-    //    // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-    //    SDL_RenderTextureRotated(m_renderer, texture.m_texture, nullptr, &destRect, transform.rotation, nullptr, 
-    //        (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
-    //}
-
-    ///// <summary>
-    ///// 
-    ///// </summary>
-    ///// <param name="texture"></param>
-    ///// <param name="source"></param>
-    ///// <param name="angle"></param>
-    ///// <param name="scale"></param>
-    ///// <param name="flipHorizontal"></param>
-    ///// <param name="flipVertical"></param>
-    //void Renderer::DrawTexture(const Texture& texture, const Rect& source, float x, float y, float angle, float scale, bool flipHorizontal, bool flipVertical, const glm::vec2& origin) const {
-    //    glm::vec2 size = texture.GetSize();
-
-    //    float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
-    //    float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
-
-    //    SDL_FRect sourceRect;
-    //    sourceRect.x = source.position.x;
-    //    sourceRect.y = source.position.y;
-
-    //    sourceRect.w = source.size.x;
-    //    sourceRect.h = source.size.y;
-
-    //    SDL_FRect destRect;
-    //    destRect.w = sourceRect.w * scale;
-    //    destRect.h = sourceRect.h * scale;
-
-    //    destRect.x = x - cameraX - (destRect.w * origin.x);
-    //    destRect.y = y - cameraY - (destRect.h * origin.y);
-
-    //    // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-    //    SDL_RenderTextureRotated(m_renderer, texture.m_texture, &sourceRect, &destRect, angle, nullptr,
-    //        (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
-    //}
-
-    //void Renderer::DrawTexture(const Texture& texture, const Rect& source, const Transform& transform, bool flipHorizontal, bool flipVertical, const glm::vec2& origin) const {
-    //    glm::vec2 size = texture.GetSize();
-
-    //    float cameraX = (m_cameraEnabled) ? m_camera.x - m_window_size.x * 0.5f : 0.0f;
-    //    float cameraY = (m_cameraEnabled) ? m_camera.y - m_window_size.y * 0.5f : 0.0f;
-
-    //    SDL_FRect sourceRect;
-    //    sourceRect.x = source.position.x;
-    //    sourceRect.y = source.position.y;
-
-    //    sourceRect.w = source.size.x;
-    //    sourceRect.h = source.size.y;
-
-    //    SDL_FRect destRect;
-    //    destRect.w = sourceRect.w * transform.scale;
-    //    destRect.h = sourceRect.h * transform.scale;
-
-    //    destRect.x = transform.position.x - cameraX - (destRect.w * origin.x);
-    //    destRect.y = transform.position.y - cameraY - (destRect.h * origin.y);
-
-    //    // https://wiki.libsdl.org/SDL3/SDL_RenderTexture
-    //    SDL_RenderTextureRotated(m_renderer, texture.m_texture, &sourceRect, &destRect, transform.rotation, nullptr,
-    //        (flipHorizontal && flipVertical) ? SDL_FLIP_HORIZONTAL_AND_VERTICAL : (flipHorizontal) ? SDL_FLIP_HORIZONTAL : (flipVertical) ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);
-    //}
+        SDL_BindGPUFragmentSamplers(m_renderPass, slot, &binding, 1);
+    }
 
     void Renderer::SetPipeline(const Pipeline& pipeline) {
         // bind the pipeline to the current render pass with SDL_BindGPUGraphicsPipeline(renderPass, gpuPipeline)
@@ -382,5 +289,20 @@ namespace ChiefEngine {
 
     void Renderer::SetFragmentUniform(uint32_t slot, const void* data, uint32_t size) {
         SDL_PushGPUFragmentUniformData(m_commandBuffer, slot, data, size);
+    }
+
+    void Renderer::CreateDepthBuffer() {
+        SDL_GPUTextureCreateInfo depthInfo {
+            .type = SDL_GPU_TEXTURETYPE_2D
+            ,.format = SDL_GPU_TEXTUREFORMAT_D32_FLOAT
+            ,.usage = SDL_GPU_TEXTUREUSAGE_DEPTH_STENCIL_TARGET
+            ,.width = static_cast<uint32_t>(m_window_size.x)
+            ,.height = static_cast<uint32_t>(m_window_size.y)
+            ,.layer_count_or_depth = 1
+            ,.num_levels = 1
+            ,.sample_count = SDL_GPU_SAMPLECOUNT_1
+        };
+
+        m_depthTexture = SDL_CreateGPUTexture(m_gpuDevice, &depthInfo);
     }
 }

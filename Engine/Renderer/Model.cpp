@@ -13,6 +13,7 @@ namespace ChiefEngine {
 		const aiScene* scene = importer.ReadFile(filename,
 			aiProcess_Triangulate |
 			aiProcess_GenSmoothNormals |
+			aiProcess_FlipUVs |
 			aiProcess_CalcTangentSpace);
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
@@ -23,6 +24,7 @@ namespace ChiefEngine {
 
 		// todo: start processing the scene from the root node with ProcessNode(node, scene, renderer)
 		// the root node is scene->mRootNode
+		ProcessNode(scene->mRootNode, scene, renderer);
 
 		return true;
 	}
@@ -31,26 +33,30 @@ namespace ChiefEngine {
 		for (const auto& mesh : m_meshes) {
 			// todo: set the mesh vertex buffer on the renderer with renderer.SetVertexBuffer(vertexBuffer)
 			// the buffers are stored as unique_ptr, so dereference them with *
+			renderer.SetVertexBuffer(*mesh.vertexBuffer);
 
 			// todo: set the mesh index buffer on the renderer with renderer.SetIndexBuffer(indexBuffer)
-
+			renderer.SetIndexBuffer(*mesh.indexBuffer);
 			// todo: draw the mesh with renderer.DrawIndex(indexBuffer)
+			renderer.DrawIndex(*mesh.indexBuffer);
 		}
 	}
 
 	void Model::ProcessNode(aiNode* node, const aiScene* scene, const Renderer& renderer) {
 		// process the current node meshes
 		// a node only stores mesh indices, the actual meshes are stored in scene->mMeshes
-		for (unsigned int i = 0; i < node->mNumMeshes; i++) {
-			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		for (unsigned int index = 0; index < node->mNumMeshes; index++) {
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[index]];
 
+			ProcessMesh(mesh, scene, renderer);
 			// todo: process the mesh with ProcessMesh(mesh, scene, renderer)
 		}
 
 		// process the current node children
-		for (unsigned int i = 0; i < node->mNumChildren; i++) {
+		for (unsigned int index = 0; index < node->mNumChildren; index++) {
 			// todo: process the child node with ProcessNode(child, scene, renderer)
 			// the children are stored in node->mChildren, this is recursive so every node in the tree gets processed
+			ProcessNode(node->mChildren[index], scene, renderer);
 		}
 	}
 
@@ -59,22 +65,28 @@ namespace ChiefEngine {
 		std::vector<Vertex> vertices;
 		vertices.reserve(mesh->mNumVertices);
 
-		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+		for (unsigned int index = 0; index < mesh->mNumVertices; index++) {
 			Vertex vertex;
 
 			// todo: set vertex.position from mesh->mVertices[i] (x, y, z)
 			// a mesh always has positions, so no null check is needed
-
+			vertex.position = glm::vec3{ mesh->mVertices[index].x, mesh->mVertices[index].y, mesh->mVertices[index].z };
 			// texcoords are optional, use (0, 0) if the mesh doesn't have them
 			vertex.texcoord = (mesh->mTextureCoords[0])
-				? glm::vec2{ mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y }
+				? glm::vec2{ mesh->mTextureCoords[0][index].x, mesh->mTextureCoords[0][index].y }
 				: glm::vec2{ 0, 0 };
 
 			// todo: set vertex.normal from mesh->mNormals[i] (x, y, z)
 			// normals are optional, use (0, 0, 0) if mesh->mNormals is null (see texcoord above)
+			vertex.normal = (mesh->mNormals)
+				? glm::vec3{ mesh->mNormals[index].x, mesh->mNormals[index].y, mesh->mNormals[index].z}
+				: glm::vec3{ 0, 0, 0 };
 
 			// todo: set vertex.tangent from mesh->mTangents[i] (x, y, z)
 			// tangents are optional, use (0, 0, 0) if mesh->mTangents is null (see texcoord above)
+			vertex.tangent = (mesh->mTangents)
+				? glm::vec3{ mesh->mTangents[index].x, mesh->mTangents[index].y, mesh->mTangents[index].z }
+				: glm::vec3{ 0, 0, 0 };
 
 			vertices.push_back(vertex);
 		}
@@ -84,9 +96,10 @@ namespace ChiefEngine {
 		std::vector<uint32_t> indices;
 		indices.reserve(mesh->mNumFaces * 3);
 
-		for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
-			const aiFace& face = mesh->mFaces[i];
-			for (unsigned int j = 0; j < face.mNumIndices; j++) {
+		for (unsigned int outIndex = 0; outIndex < mesh->mNumFaces; outIndex++) {
+			const aiFace& face = mesh->mFaces[outIndex];
+			for (unsigned int inIndex = 0; inIndex < face.mNumIndices; inIndex++) {
+				indices.push_back(face.mIndices[inIndex]);
 				// todo: add the face index face.mIndices[j] to indices
 			}
 		}
@@ -109,6 +122,7 @@ namespace ChiefEngine {
 		}
 
 		// todo: add newMesh to m_meshes
+		m_meshes.push_back(std::move(newMesh));
 		// Mesh holds unique_ptrs so it can't be copied, use std::move(newMesh)
 	}
 }

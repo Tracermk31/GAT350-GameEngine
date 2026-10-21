@@ -29,57 +29,35 @@ struct VertexUniform {
 };
 
 Transform transform;
-
 VertexUniform uniform;
+
 glm::vec3 cameraPosition{ 0, 0, 5 };
-
-std::vector<Vertex> vertices {
-    Vertex { { -1.0f, -1.0f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} }, // Bottom-Left
-    Vertex { { -1.0f,  1.0f, 0.0f}, {0.0f, 1.0f, 1.0f, 1.0f} }, // Top-Left
-    Vertex { { 1.0f, -1.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} }, // Bottom-Right
-    Vertex { { 1.0f,  1.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} }, // Top-Right
-};
-
-std::vector<uint32_t> indices{ 0, 1, 2, 1, 2, 3 };
 
 int main() {
     SetWorkingDirectory("Assets");
 
-    SeedRandom((unsigned int)time(nullptr));
-
     // INITIALIZATION
     G_Engine().Initialize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    auto vertexBuffer = std::make_shared<VertexBuffer>();
-    vertexBuffer->Create<Vertex>(vertices, G_Engine().GetRenderer());
+    auto model = Resources().Get<Model>("models/spot.obj", G_Engine().GetRenderer());
+    auto texture = Resources().Get<Texture>("textures/spot_diffuse.png", G_Engine().GetRenderer());
 
-    auto indexBuffer = std::make_shared<IndexBuffer>();
-    indexBuffer->Create(indices, G_Engine().GetRenderer());
-
-    auto vertexShader = Resources().Get<Shader>("shaders/unlit.vert", G_Engine().GetRenderer(), 1);
-    auto fragmentShader = Resources().Get<Shader>("shaders/unlit.frag", G_Engine().GetRenderer(), 1);
+    auto vertexShader = Resources().Get<Shader>("shaders/lit.vert", G_Engine().GetRenderer(), 1);
+    auto fragmentShader = Resources().Get<Shader>("shaders/lit.frag",G_Engine().GetRenderer(), 1, 1);
 
     auto pipeline = std::make_shared<Pipeline>();
-    pipeline->AddVertexBuffer(sizeof(Vertex));
-    // Position
-    pipeline->AddVertexAttribute(
-        0,
-        SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3,
-        offsetof(Vertex, position)
-    );
-    // Color
-    pipeline->AddVertexAttribute(
-        1,
-        SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2,
-        offsetof(Vertex, color)
-    );
+
+    pipeline->AddVertexBuffer(sizeof(Model::Vertex));
+    pipeline->AddVertexAttribute(0, SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3, offsetof(Model::Vertex, position));
+    pipeline->AddVertexAttribute(1, SDL_GPU_VERTEXELEMENTFORMAT_FLOAT2, offsetof(Model::Vertex, texcoord));
+    pipeline->AddVertexAttribute(2, SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3, offsetof(Model::Vertex, normal));
+    pipeline->AddVertexAttribute(3, SDL_GPU_VERTEXELEMENTFORMAT_FLOAT3, offsetof(Model::Vertex, tangent));
 
     pipeline->Create(*vertexShader.get(), *fragmentShader.get(),
         G_Engine().GetRenderer().GetGPUDevice(),
-        G_Engine().GetRenderer().GetWindow()
-    );
+        G_Engine().GetRenderer().GetWindow());
 
-    Color4 color = { 1.0f, 0.0f, 0.0f, 1.0f };
+    Color4 color = { 0.7f, 0.7f, 0.7f, 1.0f };
 
     // MAIN LOOP
     SDL_Event event;
@@ -102,8 +80,6 @@ int main() {
         float dt = G_Engine().GetTime().getDeltaTime();
         float time = G_Engine().GetTime().getTime();
 
-        color.r = 0.5f * sin(time * 10.0f) + 0.5f;
-
         glm::vec3 direction{ 0.0f };
 
         // LEFT/RIGHT
@@ -121,10 +97,10 @@ int main() {
         cameraPosition += direction * dt * 4.0f;
 
         // TRANSFORM
-        transform.rotation.z = time;
+        transform.rotation.y = time;
 
         // VIEW Matrix
-        auto view = glm::lookAtRH(cameraPosition, cameraPosition + glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{0.0f, 1.0f, 0.0f});
+        auto view = glm::lookAtRH(cameraPosition, cameraPosition + glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{ 0.0f, 1.0f, 0.0f });
 
         // PROJECTION Matrix
         float aspectRatio = SCREEN_WIDTH / SCREEN_HEIGHT;
@@ -134,20 +110,17 @@ int main() {
 
         // RENDER
         G_Engine().GetRenderer().BeginFrame();
-
+        
         G_Engine().GetRenderer().SetPipeline(*pipeline);
-        G_Engine().GetRenderer().SetIndexBuffer(*indexBuffer);
-        G_Engine().GetRenderer().SetVertexBuffer(*vertexBuffer);
-
         G_Engine().GetRenderer().SetVertexUniform(0, &uniform, sizeof(uniform));
+        
         G_Engine().GetRenderer().SetFragmentUniform(0, &color, sizeof(color));
+        G_Engine().GetRenderer().SetFragmentTexture(0, *texture);
 
-        //G_Engine().GetRenderer().Draw(vertexBuffer->GetVertexCount());
-        G_Engine().GetRenderer().DrawIndex(*indexBuffer);
+        model->Draw(G_Engine().GetRenderer());
 
-        G_Engine().GetRenderer().EndFrame(); // Render the screen
+        G_Engine().GetRenderer().EndFrame();
     }
-
     // SHUTDOWN
     G_Engine().Shutdown();
 

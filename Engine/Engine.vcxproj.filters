@@ -100,9 +100,6 @@
     <ClInclude Include="Math\EngineMath.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\TextureFrames.h">
-      <Filter>Renderer\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Core\File.h">
       <Filter>Core\Headers</Filter>
     </ClInclude>
@@ -136,16 +133,10 @@
     <ClInclude Include="Renderer\Font.h">
       <Filter>Renderer\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer\ParticleSystem.h">
-      <Filter>Renderer\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer\Renderer.h">
       <Filter>Renderer\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\Text.h">
-      <Filter>Renderer\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer\Texture.h">
       <Filter>Renderer\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Audio\Audio.h">
@@ -185,12 +176,12 @@
     <ClInclude Include="Renderer\Model.h">
       <Filter>Renderer\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer\Texture.h">
+      <Filter>Renderer\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="Renderer\TextureFrames.cpp">
-      <Filter>Renderer\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Core\EngineTime.cpp">
       <Filter>Core\Sources</Filter>
     </ClCompile>
@@ -206,16 +197,10 @@
     <ClCompile Include="Framework\Game.cpp">
       <Filter>Framework\Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer\Texture.cpp">
-      <Filter>Renderer\Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Text.cpp">
       <Filter>Renderer\Sources</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\Renderer.cpp">
-      <Filter>Renderer\Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer\ParticleSystem.cpp">
       <Filter>Renderer\Sources</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\Font.cpp">
@@ -247,6 +232,9 @@
       <Filter>Renderer\Sources</Filter>
     </ClCompile>
     <ClCompile Include="Renderer\Model.cpp">
+      <Filter>Renderer\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Texture.cpp">
       <Filter>Renderer\Sources</Filter>
     </ClCompile>
   </ItemGroup>

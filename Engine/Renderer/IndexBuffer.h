@@ -16,6 +16,7 @@ namespace ChiefEngine {
 		
 		uint32_t GetIndexCount() const { return m_indexCount; }
 
+		friend class Model;
 		friend class Renderer;
 
 	private:

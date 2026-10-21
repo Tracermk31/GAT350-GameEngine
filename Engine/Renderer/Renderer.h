@@ -45,13 +45,7 @@ namespace ChiefEngine {
 			void DrawRect(const SDL_FRect* rectangle) const;
 
 			void DrawText(float x, float y, std::string string) const;
-			//void DrawTexture(const Texture& texture, float x, float y, float angle = 0.0f, float scale = 1.0f, bool flipHorizontal = false, bool flipVertical = false, const glm::vec2& origin) const;
-			//void DrawTexture(const Texture& texture, const struct Transform& transform, bool flipHorizontal = false, bool flipVertical = false, const glm::vec2& origin) const;
-			//void DrawTexture(const Texture& texture, const class Rect& source, float x, float y, float angle = 0.0f, float scale = 1.0f, bool flipHorizontal = false, bool flipVertical = false, const glm::vec2& origin) const;
-			//void DrawTexture(const Texture& texture, const class Rect& source, const struct Transform& transform, bool flipHorizontal = false, bool flipVertical = false, const glm::vec2& origin) const;
-
-			void DrawModel(const class Model& model, const struct Transform& transform) const;
-
+			
 			/// <summary>
 			/// 
 			/// </summary>
@@ -78,6 +72,9 @@ namespace ChiefEngine {
 
 			void SetVertexUniform(uint32_t slot, const void* data, uint32_t size);
 			void SetFragmentUniform(uint32_t slot, const void* data, uint32_t size);
+			void SetFragmentTexture(uint32_t slot, const class Texture& texture);
+
+			void CreateDepthBuffer();
 
 			friend Texture;
 			friend class Shader;
@@ -90,6 +87,7 @@ namespace ChiefEngine {
 			SDL_GPUDevice* m_gpuDevice = nullptr;
 			SDL_GPURenderPass* m_renderPass = nullptr;
 			SDL_GPUCommandBuffer* m_commandBuffer = nullptr;
+			SDL_GPUTexture* m_depthTexture = nullptr;
 
 			bool m_cameraEnabled = false;
 			glm::vec2 m_camera { 0.0f };

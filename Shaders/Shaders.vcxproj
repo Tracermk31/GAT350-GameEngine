@@ -107,10 +107,26 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <FxCompile Include="color.frag.hlsl" />
-    <FxCompile Include="position.vert.hlsl" />
-    <FxCompile Include="unlit.frag.hlsl" />
-    <FxCompile Include="unlit.vert.hlsl" />
+    <CustomBuild Include="color.frag.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="position.vert.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="unlit.frag.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="unlit.vert.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="lit.frag.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
+    <CustomBuild Include="lit.vert.hlsl">
+      <FileType>Document</FileType>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

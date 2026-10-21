@@ -3,8 +3,6 @@
 #include "Actor.h"
 #include "Engine.h"
 
-#include "Components/SpriteRendererComponent.h"
-
 #include "Renderer/Texture.h"
 
 namespace ChiefEngine {
@@ -64,14 +62,14 @@ namespace ChiefEngine {
     /// </summary>
     /// <param name="renderer"> The renderer being used to draw</param>
     void Actor::Draw(const Renderer& renderer) const {
-        for (auto& component : m_components) {
-            auto rendererComponent = dynamic_cast<RendererComponent*>(component.get());
-            if (rendererComponent) {
-                if (rendererComponent->IsActive()) {
-                    rendererComponent->Draw(renderer);
-                }
-            }
-        }
+    //    for (auto& component : m_components) {
+    //        auto rendererComponent = dynamic_cast<RendererComponent*>(component.get());
+    //        if (rendererComponent) {
+    //            if (rendererComponent->IsActive()) {
+    //                rendererComponent->Draw(renderer);
+    //            }
+    //        }
+    //    }
     }
 
     /// <summary>

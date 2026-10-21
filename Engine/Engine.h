@@ -27,8 +27,6 @@
 #include "Renderer/Text.h"
 #include "Renderer/Texture.h"
 #include "Renderer/Renderer.h"
-#include "Renderer/ParticleSystem.h"
-#include "Renderer/TextureFrames.h"
 
 #include "Resources/ResourceManager.h"
 
@@ -80,15 +78,8 @@ namespace ChiefEngine {
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		ParticleSystem& GetParticleSystem() { return m_particleSystem; }
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		//Physics& GetPhysics() { return m_physics; }
 	private:
-		ParticleSystem m_particleSystem;
 		Time m_time;
 		Input m_input;
 		Renderer m_renderer;

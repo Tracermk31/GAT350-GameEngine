@@ -18,6 +18,7 @@ namespace ChiefEngine {
 		
 		uint32_t GetVertexCount() const { return m_vertexCount; }
 
+		friend class Model;
 		friend class Renderer;
 
 	private:
