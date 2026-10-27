@@ -19,11 +19,16 @@
     <CustomBuild Include="position.vert.hlsl">
       <Filter>Shaders</Filter>
     </CustomBuild>
-    <CustomBuild Include="lit.frag.hlsl">
+    <CustomBuild Include="gouraud.frag.hlsl">
       <Filter>Shaders</Filter>
     </CustomBuild>
-    <CustomBuild Include="lit.vert.hlsl">
+    <CustomBuild Include="gouraud.vert.hlsl">
       <Filter>Shaders</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Lighting.hlsli">
+      <Filter>Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

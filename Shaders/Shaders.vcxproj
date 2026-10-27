@@ -121,12 +121,15 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="lit.frag.hlsl">
+    <CustomBuild Include="gouraud.frag.hlsl">
       <FileType>Document</FileType>
     </CustomBuild>
-    <CustomBuild Include="lit.vert.hlsl">
+    <CustomBuild Include="gouraud.vert.hlsl">
       <FileType>Document</FileType>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Lighting.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

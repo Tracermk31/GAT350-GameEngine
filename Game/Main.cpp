@@ -12,6 +12,12 @@
 
 using namespace ChiefEngine;
 
+enum class LightType : uint32_t {
+    DIRECTIONAL,
+    POINT,
+    SPOT
+};
+
 const float SCREEN_WIDTH = 1920.0f;
 const float SCREEN_HEIGHT = 1200.0f;
 
@@ -26,12 +32,55 @@ struct Vertex {
 
 struct VertexUniform {
     glm::mat4 mvp;
+    glm::mat4 worldMatrix;
+    glm::vec3 cameraPosition;
+    float padding1;
+};
+
+// UNIFORMS
+glm::vec4 tint(1, 1, 1, 1);
+VertexUniform vertexUniform {
+    .cameraPosition{ 0, 4, 8 }
+};
+
+struct LightUniform {
+    glm::vec3 position;
+    LightType type;
+    glm::vec3 lightDirection;
+    float innerCutoff;
+    glm::vec3 lightColor;
+    float lightIntensity;
+    glm::vec3 ambient;
+    float outerCutoff;
+};
+
+LightUniform lightUniform {
+    .position{-10000, 10000, 0},
+    .type {LightType::DIRECTIONAL},
+    .lightDirection{0, -1, 0},
+    .innerCutoff {0.3f},
+    .lightColor {1.0f, 1.0f, 1.0f},
+    .lightIntensity {1.0f},
+    .ambient {0.6f},
+    .outerCutoff {3.0f}
+};
+
+struct MaterialUniform {
+    Color4 colorMask;
+    glm::vec2 uvTiling;
+    glm::vec2 offset;
+    float shininess;
+};
+
+MaterialUniform materialUniform {
+    .colorMask {1, 1, 1, 1},
+    .uvTiling {1.0f},
+    .offset {0.0f},
+    .shininess {128.0f}
 };
 
 Transform transform;
-VertexUniform uniform;
 
-glm::vec3 cameraPosition{ 0, 0, 5 };
 
 int main() {
     SetWorkingDirectory("Assets");
@@ -39,11 +88,12 @@ int main() {
     // INITIALIZATION
     G_Engine().Initialize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    auto model = Resources().Get<Model>("models/spot.obj", G_Engine().GetRenderer());
-    auto texture = Resources().Get<Texture>("textures/spot_diffuse.png", G_Engine().GetRenderer());
+    auto model = Resources().Get<Model>("models/Marth.obj", G_Engine().GetRenderer());
+    auto texture = Resources().Get<Texture>("textures/Marth_Clothes_Armor_BaseColor.png", G_Engine().GetRenderer());
+    auto texture2 = Resources().Get<Texture>("textures/Marth_SkinHair_BaseColor.png", G_Engine().GetRenderer());
 
-    auto vertexShader = Resources().Get<Shader>("shaders/lit.vert", G_Engine().GetRenderer(), 1);
-    auto fragmentShader = Resources().Get<Shader>("shaders/lit.frag",G_Engine().GetRenderer(), 1, 1);
+    auto vertexShader = Resources().Get<Shader>("shaders/gouraud.vert", G_Engine().GetRenderer(), 3);
+    auto fragmentShader = Resources().Get<Shader>("shaders/gouraud.frag",G_Engine().GetRenderer(), 1, 1);
 
     auto pipeline = std::make_shared<Pipeline>();
 
@@ -56,8 +106,6 @@ int main() {
     pipeline->Create(*vertexShader.get(), *fragmentShader.get(),
         G_Engine().GetRenderer().GetGPUDevice(),
         G_Engine().GetRenderer().GetWindow());
-
-    Color4 color = { 0.7f, 0.7f, 0.7f, 1.0f };
 
     // MAIN LOOP
     SDL_Event event;
@@ -94,27 +142,46 @@ int main() {
         if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_SPACE)) { direction.y = 1.0f; }
         if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_LCTRL)) { direction.y = -1.0f; }
 
-        cameraPosition += direction * dt * 4.0f;
+        vertexUniform.cameraPosition += direction * dt * 4.0f;
+
+        // CHANGE LIGHTING TYPES
+        if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_1)) { 
+            lightUniform.type = LightType::DIRECTIONAL;
+
+            lightUniform.position = { -1000, 1000, 0 };
+        }
+        if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_2)) { 
+            lightUniform.type = LightType::POINT; 
+            lightUniform.position = { -1000, 1000, 0 };
+        }
+        if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_3)) { 
+            lightUniform.type = LightType::SPOT; 
+            lightUniform.position = { 0, 12, 0 };
+        }
 
         // TRANSFORM
-        transform.rotation.y = time;
+        transform.rotation.y += dt;
 
         // VIEW Matrix
-        auto view = glm::lookAtRH(cameraPosition, cameraPosition + glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{ 0.0f, 1.0f, 0.0f });
+        auto view = glm::lookAtRH(vertexUniform.cameraPosition, vertexUniform.cameraPosition + glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{ 0.0f, 1.0f, 0.0f });
 
         // PROJECTION Matrix
         float aspectRatio = SCREEN_WIDTH / SCREEN_HEIGHT;
         auto projection = glm::perspective(glm::radians(70.0f), aspectRatio, 0.01f, 20.0f);
 
-        uniform.mvp = projection * view * transform.GetMatrix();
+        // MVP
+        vertexUniform.worldMatrix = transform.GetMatrix();
+        vertexUniform.mvp = projection * view * vertexUniform.worldMatrix;
 
         // RENDER
         G_Engine().GetRenderer().BeginFrame();
         
         G_Engine().GetRenderer().SetPipeline(*pipeline);
-        G_Engine().GetRenderer().SetVertexUniform(0, &uniform, sizeof(uniform));
+        G_Engine().GetRenderer().SetVertexUniform(0, &vertexUniform, sizeof(vertexUniform));
+        G_Engine().GetRenderer().SetVertexUniform(1, &lightUniform, sizeof(lightUniform));
+        G_Engine().GetRenderer().SetVertexUniform(2, &materialUniform, sizeof(materialUniform));
         
-        G_Engine().GetRenderer().SetFragmentUniform(0, &color, sizeof(color));
+        G_Engine().GetRenderer().SetFragmentUniform(0, &materialUniform, sizeof(materialUniform));
         G_Engine().GetRenderer().SetFragmentTexture(0, *texture);
 
         model->Draw(G_Engine().GetRenderer());
