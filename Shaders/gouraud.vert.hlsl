@@ -49,13 +49,13 @@ Output main(Input input) {
     
     //SPECULAR
     if (normalizedLighting > 0) {
-        //float3 specularReflection = reflect(-lightWorldPosition, normals);
+        float3 specularReflection = reflect(-lightWorldPosition, normals);
+        float3 viewDirection = normalize(cameraPosition - worldPosition);
         
         //Blinn-Phong Specular
-        float3 viewDirection = normalize(cameraPosition - worldPosition);
-        float3 halfwayVector = normalize(viewDirection + lightWorldPosition);
+        //float3 halfwayVector = normalize(viewDirection + lightWorldPosition);
         
-        float specularLighting = saturate(dot(halfwayVector, normals));
+        float specularLighting = saturate(dot(specularReflection, viewDirection));
 
         output.specular = pow(specularLighting, material.shininess) * radiance * attenuation;
     } else {

@@ -92,8 +92,8 @@ int main() {
     auto texture = Resources().Get<Texture>("textures/Marth_Clothes_Armor_BaseColor.png", G_Engine().GetRenderer());
     auto texture2 = Resources().Get<Texture>("textures/Marth_SkinHair_BaseColor.png", G_Engine().GetRenderer());
 
-    auto vertexShader = Resources().Get<Shader>("shaders/gouraud.vert", G_Engine().GetRenderer(), 3);
-    auto fragmentShader = Resources().Get<Shader>("shaders/gouraud.frag",G_Engine().GetRenderer(), 1, 1);
+    auto vertexShader = Resources().Get<Shader>("shaders/phong.vert", G_Engine().GetRenderer(), 3);
+    auto fragmentShader = Resources().Get<Shader>("shaders/phong.frag",G_Engine().GetRenderer(), 1, 1);
 
     auto pipeline = std::make_shared<Pipeline>();
 

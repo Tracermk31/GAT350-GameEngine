@@ -131,6 +131,10 @@
   <ItemGroup>
     <ClInclude Include="Lighting.hlsli" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="phong.frag.hlsl" />
+    <FxCompile Include="phong.vert.hlsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
