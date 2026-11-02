@@ -91,7 +91,7 @@ LightUniform lightUniform{
 };
 
 struct MaterialUniform {
-    Color4 colorMask;
+    Color4 baseMap;
     glm::vec2 uvTiling;
     glm::vec2 offset;
     float shininess;
@@ -101,7 +101,7 @@ struct MaterialUniform {
 CHECK_UNIFORM_BOUNDARY(MaterialUniform)
 
 MaterialUniform materialUniform {
-    .colorMask {1, 1, 1, 1},
+    .baseMap {1, 1, 1, 1},
     .uvTiling {1.0f},
     .offset {0.0f},
     .shininess {128.0f}

@@ -7,7 +7,7 @@
 #define MAX_LIGHTS          8
 
 struct Material {
-    float4 colorMask;
+    float4 baseMap;
 	float2 uvTiling;
 	float2 offset;
     float shininess;

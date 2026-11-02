@@ -33,7 +33,7 @@ struct Output {
 
 Output main(Input input) {
 	Output output;
-    float4 albedo = u_texture.Sample(u_sampler, input.uv) * material.colorMask;
+    float4 albedo = u_texture.Sample(u_sampler, input.uv) * material.baseMap;
     float3 viewDirection = normalize(cameraPosition - input.worldPosition);
    
     float3 diffuseLighting = ambient;
