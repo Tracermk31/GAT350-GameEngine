@@ -10,11 +10,11 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{db3a7350-b951-4bb1-8800-f99f4df87ae6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assets\Shaders">
-      <UniqueIdentifier>{7e12a3ac-01a0-41c5-ac9c-7ad397994447}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Tools">
       <UniqueIdentifier>{991a07d3-dd9f-4a0d-abe7-ab8e27827d73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets\Scenes">
+      <UniqueIdentifier>{9f37c353-059c-4d7e-9153-665100dda5c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +25,9 @@
   <ItemGroup>
     <None Include="..\Tools\compile_shaders.bat">
       <Filter>Tools</Filter>
+    </None>
+    <None Include="..\Build\Assets\Scenes\Scene.json">
+      <Filter>Assets\Scenes</Filter>
     </None>
   </ItemGroup>
 </Project>

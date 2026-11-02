@@ -10,4 +10,8 @@ namespace ChiefEngine {
 	void LightComponent::Draw(const Renderer& renderer) const {
 
 	}
+
+	void LightComponent::Read(const JSON::value_t& value) {
+
+	}
 }

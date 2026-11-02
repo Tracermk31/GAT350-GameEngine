@@ -203,6 +203,7 @@
     <ClInclude Include="Assets.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Build\Assets\Scenes\Scene.json" />
     <None Include="..\Tools\compile_shaders.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

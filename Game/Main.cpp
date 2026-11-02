@@ -117,24 +117,33 @@ int main() {
     // INITIALIZATION
     G_Engine().Initialize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+    //Scene scene;
+    //scene.Load("Scenes/Scene.JSON");
+
     lightUniform.lights[0] = light;
     lightUniform.lights[0].lightColor = { 1, 0, 0 };
+    lightUniform.lights[0].lightIntensity = { 0.5f };
     lightUniform.lights[1] = light;
     lightUniform.lights[1].type = LightType::POINT;
     lightUniform.lights[1].lightColor = { 0, 1, 0 };
-    lightUniform.lights[1].position = { -5, 10, 0 };
+    lightUniform.lights[1].position = { -5, 5, 0 };
     lightUniform.lights[2] = light;
     lightUniform.lights[2].type = LightType::SPOT;
     lightUniform.lights[2].lightColor = { 0, 0, 1 };
     lightUniform.lights[2].position = { 5, 10, 0 };
 
-    auto model = Resources().Get<Model>("models/plane.obj", G_Engine().GetRenderer());
-    auto texture = Resources().Get<Texture>("textures/Brick_diffuse.png", G_Engine().GetRenderer());
+    auto model = Resources().Get<Model>("Models/plane.obj", G_Engine().GetRenderer());
+    auto texture = Resources().Get<Texture>("Textures/Brick_diffuse.png", G_Engine().GetRenderer());
     //auto texture = Resources().Get<Texture>("textures/Marth_Clothes_Armor_BaseColor.png", G_Engine().GetRenderer());
     //auto texture2 = Resources().Get<Texture>("textures/Marth_SkinHair_BaseColor.png", G_Engine().GetRenderer());
 
-    auto vertexShader = Resources().Get<Shader>("shaders/phong.vert", G_Engine().GetRenderer(), 3);
-    auto fragmentShader = Resources().Get<Shader>("shaders/phong.frag",G_Engine().GetRenderer(), 3, 1);
+    // GOURAUD
+    auto vertexShader = Resources().Get<Shader>("Shaders/gouraud.vert", G_Engine().GetRenderer(), 3);
+    auto fragmentShader = Resources().Get<Shader>("Shaders/gouraud.frag",G_Engine().GetRenderer(), 3, 1);
+
+    // PHONG
+    //auto vertexShader = Resources().Get<Shader>("Shaders/phong.vert", G_Engine().GetRenderer(), 3);
+    //auto fragmentShader = Resources().Get<Shader>("Shaders/phong.frag",G_Engine().GetRenderer(), 3, 1);
 
     auto pipeline = std::make_shared<Pipeline>();
 

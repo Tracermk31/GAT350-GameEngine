@@ -10,4 +10,8 @@ namespace ChiefEngine {
 	void MaterialComponent::Draw(const Renderer& renderer) const {
 
 	}
+
+	void MaterialComponent::Read(const JSON::value_t& value) {
+
+	}
 }
