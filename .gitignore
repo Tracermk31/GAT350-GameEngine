@@ -367,14 +367,10 @@ FodyWeavers.xsd
 #
 #---------------------------------------------------------------------
 
-# 3D model files
+# 3d model files (.obj) - the rule above is for compiler object files
 !Build/**
 
-# Third-Party Libraries
-# 3d model files (.obj) - the rule above is for compiler object files
-!Build/Assets/**/*.obj
-
-# third-party libraries: un-ignore build-style folder names inside ThirdParty
+# Third-Party Libraries: un-ignore build-style folder names inside ThirdParty
 !ThirdParty/**/[Bb]in/
 !ThirdParty/**/[Ll]ib/
 !ThirdParty/**/x64/
