@@ -10,6 +10,10 @@
 
 #include <memory>
 
+#define CHECK_UNIFORM_BOUNDARY(T) static_assert((sizeof(T) % 16) == 0);
+
+#define MAX_LIGHTS 8
+
 using namespace ChiefEngine;
 
 enum class LightType : uint32_t {
@@ -37,32 +41,53 @@ struct VertexUniform {
     float padding1;
 };
 
+CHECK_UNIFORM_BOUNDARY(VertexUniform)
+
 // UNIFORMS
 glm::vec4 tint(1, 1, 1, 1);
 VertexUniform vertexUniform {
     .cameraPosition{ 0, 4, 8 }
 };
 
-struct LightUniform {
+struct Light {
     glm::vec3 position;
     LightType type;
+
     glm::vec3 lightDirection;
-    float innerCutoff;
+    float range;
+
     glm::vec3 lightColor;
     float lightIntensity;
-    glm::vec3 ambient;
+
+    float innerCutoff;
     float outerCutoff;
+    glm::vec2 padding;
 };
 
-LightUniform lightUniform {
+CHECK_UNIFORM_BOUNDARY(Light)
+
+Light light {
     .position{-10000, 10000, 0},
     .type {LightType::DIRECTIONAL},
     .lightDirection{0, -1, 0},
-    .innerCutoff {0.3f},
+    .range {1000.0f},
     .lightColor {1.0f, 1.0f, 1.0f},
     .lightIntensity {1.0f},
-    .ambient {0.6f},
-    .outerCutoff {3.0f}
+    .innerCutoff { glm::cos(glm::radians(10.0f)) },
+    .outerCutoff { glm::cos(glm::radians(30.0f)) }
+};
+
+struct LightUniform {
+    Light lights[MAX_LIGHTS];
+    uint32_t numLights;
+    glm::vec3 ambient;
+};
+
+CHECK_UNIFORM_BOUNDARY(LightUniform)
+
+LightUniform lightUniform{
+    .numLights = 3,
+    .ambient = glm::vec3{0.5f}
 };
 
 struct MaterialUniform {
@@ -70,7 +95,10 @@ struct MaterialUniform {
     glm::vec2 uvTiling;
     glm::vec2 offset;
     float shininess;
+    glm::vec3 padding;
 };
+
+CHECK_UNIFORM_BOUNDARY(MaterialUniform)
 
 MaterialUniform materialUniform {
     .colorMask {1, 1, 1, 1},
@@ -79,8 +107,9 @@ MaterialUniform materialUniform {
     .shininess {128.0f}
 };
 
-Transform transform;
-
+Transform transform{
+    .scale = glm::vec3{ 4.0f }
+};
 
 int main() {
     SetWorkingDirectory("Assets");
@@ -88,12 +117,24 @@ int main() {
     // INITIALIZATION
     G_Engine().Initialize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    auto model = Resources().Get<Model>("models/Marth.obj", G_Engine().GetRenderer());
-    auto texture = Resources().Get<Texture>("textures/Marth_Clothes_Armor_BaseColor.png", G_Engine().GetRenderer());
-    auto texture2 = Resources().Get<Texture>("textures/Marth_SkinHair_BaseColor.png", G_Engine().GetRenderer());
+    lightUniform.lights[0] = light;
+    lightUniform.lights[0].lightColor = { 1, 0, 0 };
+    lightUniform.lights[1] = light;
+    lightUniform.lights[1].type = LightType::POINT;
+    lightUniform.lights[1].lightColor = { 0, 1, 0 };
+    lightUniform.lights[1].position = { -5, 10, 0 };
+    lightUniform.lights[2] = light;
+    lightUniform.lights[2].type = LightType::SPOT;
+    lightUniform.lights[2].lightColor = { 0, 0, 1 };
+    lightUniform.lights[2].position = { 5, 10, 0 };
+
+    auto model = Resources().Get<Model>("models/plane.obj", G_Engine().GetRenderer());
+    auto texture = Resources().Get<Texture>("textures/Brick_diffuse.png", G_Engine().GetRenderer());
+    //auto texture = Resources().Get<Texture>("textures/Marth_Clothes_Armor_BaseColor.png", G_Engine().GetRenderer());
+    //auto texture2 = Resources().Get<Texture>("textures/Marth_SkinHair_BaseColor.png", G_Engine().GetRenderer());
 
     auto vertexShader = Resources().Get<Shader>("shaders/phong.vert", G_Engine().GetRenderer(), 3);
-    auto fragmentShader = Resources().Get<Shader>("shaders/phong.frag",G_Engine().GetRenderer(), 1, 1);
+    auto fragmentShader = Resources().Get<Shader>("shaders/phong.frag",G_Engine().GetRenderer(), 3, 1);
 
     auto pipeline = std::make_shared<Pipeline>();
 
@@ -108,6 +149,7 @@ int main() {
         G_Engine().GetRenderer().GetWindow());
 
     // MAIN LOOP
+
     SDL_Event event;
     bool running = true;
     while (running) {
@@ -144,19 +186,23 @@ int main() {
 
         vertexUniform.cameraPosition += direction * dt * 4.0f;
 
-        // CHANGE LIGHTING TYPES
-        if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_1)) { 
-            lightUniform.type = LightType::DIRECTIONAL;
+        //lightUniform.lights[0].position = glm::eulerAngleY(time) * glm::vec4{ 0, 0, 10, 1 };
+        //lightUniform.lights[1].position = glm::eulerAngleX(time) * glm::vec4{ 0, 0, 10, 1 };
 
-            lightUniform.position = { -1000, 1000, 0 };
+        // CHANGE LIGHTING TYPES
+        if (G_Engine().GetInput().GetKeyPressed(SDL_SCANCODE_1)) { 
+            lightUniform.lights[0].type = LightType::DIRECTIONAL;
+            lightUniform.lights[0].position = { -1000, 1000, 0 };
         }
-        if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_2)) { 
-            lightUniform.type = LightType::POINT; 
-            lightUniform.position = { -1000, 1000, 0 };
+
+        if (G_Engine().GetInput().GetKeyPressed(SDL_SCANCODE_2)) { 
+            lightUniform.lights[0].type = LightType::POINT; 
+            lightUniform.lights[0].position = { 0, 4, 0 };
         }
-        if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_3)) { 
-            lightUniform.type = LightType::SPOT; 
-            lightUniform.position = { 0, 12, 0 };
+
+        if (G_Engine().GetInput().GetKeyPressed(SDL_SCANCODE_3)) { 
+            lightUniform.lights[0].type = LightType::SPOT; 
+            lightUniform.lights[0].position = { 0, 4, 0 };
         }
 
         // TRANSFORM
@@ -167,7 +213,7 @@ int main() {
 
         // PROJECTION Matrix
         float aspectRatio = SCREEN_WIDTH / SCREEN_HEIGHT;
-        auto projection = glm::perspective(glm::radians(70.0f), aspectRatio, 0.01f, 20.0f);
+        auto projection = glm::perspective(glm::radians(70.0f), aspectRatio, 0.01f, 100.0f);
 
         // MVP
         vertexUniform.worldMatrix = transform.GetMatrix();
@@ -181,7 +227,10 @@ int main() {
         G_Engine().GetRenderer().SetVertexUniform(1, &lightUniform, sizeof(lightUniform));
         G_Engine().GetRenderer().SetVertexUniform(2, &materialUniform, sizeof(materialUniform));
         
-        G_Engine().GetRenderer().SetFragmentUniform(0, &materialUniform, sizeof(materialUniform));
+        G_Engine().GetRenderer().SetFragmentUniform(0, &vertexUniform, sizeof(vertexUniform));
+        G_Engine().GetRenderer().SetFragmentUniform(1, &lightUniform, sizeof(lightUniform));
+        G_Engine().GetRenderer().SetFragmentUniform(2, &materialUniform, sizeof(materialUniform));
+
         G_Engine().GetRenderer().SetFragmentTexture(0, *texture);
 
         model->Draw(G_Engine().GetRenderer());
@@ -193,3 +242,4 @@ int main() {
 
     return 0;
 }
+

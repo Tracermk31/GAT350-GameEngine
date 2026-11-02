@@ -8,7 +8,9 @@ cbuffer VertexUniforms : register(b0, space1) {
 }
 
 cbuffer LightUniforms : register(b1, space1) {
-    Light light;
+    Light lights[MAX_LIGHTS];
+    uint numLights;
+    float3 ambient;    
 }
 
 cbuffer MaterialUniforms : register(b2, space1) {
@@ -25,8 +27,8 @@ struct Input {
 struct Output {
     float4 position : SV_Position;
     float2 uv : TEXCOORD0;
-    float3 diffuseLighting : TEXCOORD001;
-    float3 specular : TEXCOORD002;
+    float3 normal : TEXCOORD001;
+    float3 worldPosition : TEXCOORD002;
 };
 
 Output main(Input input) {
@@ -34,32 +36,8 @@ Output main(Input input) {
     output.uv = (input.uv * material.uvTiling) + material.offset;
     output.position = mul(mvp, float4(input.position, 1.0f));
     
-    float3 normals = normalize(mul((float3x3) worldMatrix, input.normal));
-    float3 worldPosition = mul(worldMatrix, float4(input.position, 1.0f)).xyz;
+    output.normal = normalize(mul((float3x3) worldMatrix, input.normal));
+    output.worldPosition = mul(worldMatrix, float4(input.position, 1.0f)).xyz;
     
-    float attenuation;
-    float3 lightWorldPosition = getLightVector(light, worldPosition, attenuation);
-    float3 radiance = light.color * light.intensity;
-    
-    // DIFFUSE
-    float normalizedLighting = saturate(dot(normals, lightWorldPosition));
-    float3 diffuseLighting = radiance * normalizedLighting * attenuation;
-    
-    output.diffuseLighting = light.ambient + diffuseLighting;
-    
-    //SPECULAR
-    if (normalizedLighting > 0) {
-        //float3 specularReflection = reflect(-lightWorldPosition, normals);
-        
-        //Blinn-Phong Specular
-        float3 viewDirection = normalize(cameraPosition - worldPosition);
-        float3 halfwayVector = normalize(viewDirection + lightWorldPosition);
-        
-        float specularLighting = saturate(dot(halfwayVector, normals));
-
-        output.specular = pow(specularLighting, material.shininess) * radiance * attenuation;
-    } else {
-        output.specular = float3(0.0f, 0.0f, 0.0f);
-    }
     return output;
 }
