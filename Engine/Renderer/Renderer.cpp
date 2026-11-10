@@ -6,10 +6,9 @@
 #include "Renderer.h"
 #include "IndexBuffer.h"
 #include "VertexBuffer.h"
+#include "MaterialInstance.h"
 
-#include "Math/Rect.h"
 #include "Math/Transform.h"
-#include "Math/EngineMath.h"
 
 namespace ChiefEngine {
     /// <summary>
@@ -140,8 +139,12 @@ namespace ChiefEngine {
         return true;
     }
 
-    bool Renderer::EndFrame() const {
-        SDL_EndGPURenderPass(m_renderPass);
+    bool Renderer::EndFrame() {
+        if (m_renderPass) {
+            SDL_EndGPURenderPass(m_renderPass);
+            m_renderPass = nullptr;
+        }
+
         if (!SDL_SubmitGPUCommandBuffer(m_commandBuffer)) {
             std::cerr << "Could not submit command buffer: " << SDL_GetError() << std::endl;
             return false;
@@ -227,14 +230,14 @@ namespace ChiefEngine {
         SDL_BindGPUFragmentSamplers(m_renderPass, slot, &binding, 1);
     }
 
-    void Renderer::SetPipeline(const Pipeline& pipeline) {
+    void Renderer::SetPipeline(const Pipeline& pipeline) const {
         // bind the pipeline to the current render pass with SDL_BindGPUGraphicsPipeline(renderPass, gpuPipeline)
         // the pipeline sets the shaders and render settings used by the draw calls that follow
         // use pipeline.GetGPUPipeline() to get the sdl pipeline
         SDL_BindGPUGraphicsPipeline(m_renderPass, pipeline.m_gpuPipeline);
     }
 
-    void Renderer::SetVertexBuffer(const VertexBuffer& vertexBuffer) {
+    void Renderer::SetVertexBuffer(const VertexBuffer& vertexBuffer) const {
         // describe which buffer to bind and where to start reading from
         SDL_GPUBufferBinding binding {
             .buffer = vertexBuffer.m_gpuBuffer, // todo: the vertex buffer's gpu buffer
@@ -251,7 +254,7 @@ namespace ChiefEngine {
         SDL_BindGPUVertexBuffers( m_renderPass, 0, &binding, 1);
     }
 
-    void Renderer::SetIndexBuffer(const IndexBuffer& indexBuffer) {
+    void Renderer::SetIndexBuffer(const IndexBuffer& indexBuffer) const {
         // describe which buffer to bind and where to start reading from
         SDL_GPUBufferBinding binding{
             .buffer = indexBuffer.m_gpuBuffer, // todo: the vertex buffer's gpu buffer
@@ -279,16 +282,21 @@ namespace ChiefEngine {
         SDL_DrawGPUPrimitives(m_renderPass, vertexCount, 1, 0, 0);
     }
 
-    void Renderer::DrawIndex(const IndexBuffer& indexBuffer) {
+    void Renderer::DrawIndex(const IndexBuffer& indexBuffer) const {
         SDL_DrawGPUIndexedPrimitives(m_renderPass, indexBuffer.GetIndexCount(), 1, 0, 0, 0);
     }
 
-    void Renderer::SetVertexUniform(uint32_t slot, const void* data, uint32_t size) {
-        SDL_PushGPUVertexUniformData(m_commandBuffer, slot, data, size);
+    void Renderer::SetVertexUniform(UniformSlot slot, const void* data, uint32_t size) const {
+        SDL_PushGPUVertexUniformData(m_commandBuffer, static_cast<uint32_t>(slot), data, size);
     }
 
-    void Renderer::SetFragmentUniform(uint32_t slot, const void* data, uint32_t size) {
-        SDL_PushGPUFragmentUniformData(m_commandBuffer, slot, data, size);
+    void Renderer::SetFragmentUniform(UniformSlot slot, const void* data, uint32_t size) const {
+        SDL_PushGPUFragmentUniformData(m_commandBuffer, static_cast<uint32_t>(slot), data, size);
+    }
+
+    void Renderer::SetMaterial(const MaterialInstance& materialInstance) const {
+        SetPipeline(materialInstance.GetMaterial().GetPipeline());
+        materialInstance.Bind(m_commandBuffer, m_renderPass);
     }
 
     void Renderer::CreateDepthBuffer() {

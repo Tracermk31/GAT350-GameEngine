@@ -31,7 +31,7 @@ namespace ChiefEngine {
 
         CLASS_PROTOTYPE(Actor)
 
-        virtual void Update(float dt, float maxY, float maxX);
+        virtual void Update(float dt);
         virtual void Draw(const class Renderer& renderer) const;
 
         virtual void Start();
@@ -45,7 +45,7 @@ namespace ChiefEngine {
         void SetTransform(const Transform& transform) { m_transform = transform; }
 
         void SetPosition(const glm::vec3& position) { m_transform.position = position; }
-        void SetRotation(const glm::vec3& rotation) { m_transform.rotation = rotation; }
+        void SetRotation(const glm::vec3& rotation) { m_transform.SetRotation(rotation); }
         void SetScale(const glm::vec3& scale) { m_transform.scale = scale; }
 
         void BeDestroyed() { m_destroyed = true; }

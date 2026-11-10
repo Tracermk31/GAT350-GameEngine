@@ -17,8 +17,10 @@ namespace ChiefEngine {
 
 		glm::vec2 GetSize() const { return { m_width, m_height }; }
 
-		friend class Renderer;
+		SDL_GPUTexture* GetGPUTexture() const { return m_gpuTexture; }
+		SDL_GPUSampler* GetGPUSampler() const { return m_gpuSampler; }
 
+		friend class Renderer;
 	private:
 		uint32_t m_width{ 0 };
 		uint32_t m_height{ 0 };

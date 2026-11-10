@@ -10,10 +10,14 @@
 namespace ChiefEngine {
 	FACTORY_REGISTER(CameraComponent)
 
+	void CameraComponent::Start() {
+		m_aspectRatio = G_Engine().GetRenderer().getWindowWidth() / G_Engine().GetRenderer().getWindowHeight();
+		m_forward = m_owner->GetTransform().Forward();
+	}
+
 	void CameraComponent::Update(float dt) {
-		m_view = glm::lookAtRH(m_owner->GetTransform().position, m_owner->GetTransform().position + glm::vec3{ 0.0f, 0.0f, -1.0f }, glm::vec3{ 0.0f, 1.0f, 0.0f });
-		float aspectRatio = G_Engine().GetRenderer().getWindowWidth() / G_Engine().GetRenderer().getWindowHeight();
-		m_projection = glm::perspective(glm::radians(m_fov), aspectRatio, m_nearPlane, m_farPlane);
+		m_view = glm::lookAtRH(m_owner->GetTransform().position, m_owner->GetTransform().position + m_forward, glm::vec3{ 0.0f, 1.0f, 0.0f });
+		m_projection = glm::perspective(glm::radians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
 	}
 
 	void CameraComponent::Read(const JSON::value_t& value) {

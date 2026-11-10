@@ -191,6 +191,21 @@
     <ClInclude Include="Components\MaterialComponent.h">
       <Filter>Components\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Components\CameraControllerComponent.h">
+      <Filter>Components\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Uniforms.h">
+      <Filter>Renderer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Light.h">
+      <Filter>Renderer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\MaterialInstance.h">
+      <Filter>Renderer\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\Material.h">
+      <Filter>Renderer\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -260,6 +275,15 @@
     </ClCompile>
     <ClCompile Include="Components\MaterialComponent.cpp">
       <Filter>Components\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Components\CameraControllerComponent.cpp">
+      <Filter>Components\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\Material.cpp">
+      <Filter>Renderer\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer\MaterialInstance.cpp">
+      <Filter>Renderer\Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

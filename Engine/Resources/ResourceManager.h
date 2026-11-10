@@ -18,6 +18,8 @@ namespace ChiefEngine {
 		template<typename T, typename ... Args>
 			requires std::derived_from<T, Resource>
 		resource_t<T> GetWithID(const std::string& id, const std::string& name, Args&& ... args);
+
+		void Clear() { m_resources.clear(); }
 	private:
 		std::map<std::string, resource_t<Resource>> m_resources;
 	};

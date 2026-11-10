@@ -2,11 +2,14 @@
 
 #include "Scene.h"
 
-#include "Components/ColliderComponent.h"
+#include "Components/CameraComponent.h"
+#include "Components/LightComponent.h"
 
 #include "Core/Factory.h"
 
 #include "Renderer/Renderer.h"
+
+#include <SDL3/sdl.h>
 
 namespace ChiefEngine {
 	/// <summary>
@@ -24,9 +27,9 @@ namespace ChiefEngine {
 	/// <param name="dt"></param>
 	/// <param name="maxX"></param>
 	/// <param name="maxY"></param>
-	void Scene::Update(float dt, float maxX, float maxY) {
+	void Scene::Update(float dt) {
 		for (auto& actor : m_actors) {
-			actor->Update(dt, maxX, maxY);
+			actor->Update(dt);
 		}
 
 		for (auto& actor : m_actors) {
@@ -49,6 +52,37 @@ namespace ChiefEngine {
 	/// </summary>
 	/// <param name="renderer"></param>
 	void Scene::Draw(const Renderer& renderer) {
+		FrameUniform frameUniform{};
+
+		auto camera = GetActorByTag("Camera");
+		if (camera) {
+			auto cameraComponent = camera->GetComponent<CameraComponent>();
+			if (cameraComponent) {
+				frameUniform.cameraPosition = camera->GetTransform().position;
+				frameUniform.view = cameraComponent->GetView();
+				frameUniform.projection = cameraComponent->GetProjection();
+				frameUniform.viewProjection = frameUniform.projection * frameUniform.view;
+
+				renderer.SetVertexUniform(UniformSlot::FRAME, &frameUniform, sizeof(frameUniform));
+				renderer.SetFragmentUniform(UniformSlot::FRAME, &frameUniform, sizeof(frameUniform));
+			}
+		}
+		LightUniform lightUniform{};
+		lightUniform.ambient = glm::vec3{ 0.2f };
+
+		auto lights = GetActorsByTag("Light");
+		for (auto light : lights) {
+			auto lightComponent = light->GetComponent<LightComponent>();
+			if (lightComponent) {
+				lightUniform.lights[lightUniform.numLights++] = lightComponent->GetLightData();
+			}
+		}
+
+		renderer.SetVertexUniform(UniformSlot::LIGHT, &lightUniform, sizeof(lightUniform));
+		renderer.SetFragmentUniform(UniformSlot::LIGHT, &lightUniform, sizeof(lightUniform));
+
+		//auto lights;
+
 		for (const auto& actor : m_actors) {
 			actor->Draw(renderer);
 		}
@@ -60,7 +94,8 @@ namespace ChiefEngine {
 	void Scene::DeleteActors(bool force) {
 		if (force) {
 			m_actors.clear();
-		} else {
+		}
+		else {
 			std::erase_if(m_actors, [](auto& actor) { return !actor->IsPersistent(); });
 		}
 	}
@@ -75,7 +110,7 @@ namespace ChiefEngine {
 		if (JSON::Load(sceneName, document)) {
 			if (JSON_HAS_BY_NAME(document, "actors")) {
 				for (auto& actorValue : JSON_GET_BY_NAME(document, "actors").GetArray()) {
-					std::string type;	
+					std::string type;
 					JSON_READ_BY_DATA(actorValue, type);
 
 					auto actor = Factory::Instance().Create<Actor>(type);
@@ -88,13 +123,15 @@ namespace ChiefEngine {
 						std::string name;
 						JSON_READ_BY_DATA(actorValue, name);
 						Factory::Instance().RegisterPrototype<Actor>(name, std::move(actor));
-					} else {
+					}
+					else {
 						AddActor(std::move(actor));
 					}
 				}
 			}
 			return true;
-		} else {
+		}
+		else {
 			return false;
 		}
 	}

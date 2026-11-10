@@ -16,6 +16,9 @@
     <Filter Include="Assets\Scenes">
       <UniqueIdentifier>{9f37c353-059c-4d7e-9153-665100dda5c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Materials">
+      <UniqueIdentifier>{065263e9-4aa1-470b-9a51-2dd724b19102}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assets.h">
@@ -28,6 +31,15 @@
     </None>
     <None Include="..\Build\Assets\Scenes\Scene.json">
       <Filter>Assets\Scenes</Filter>
+    </None>
+    <None Include="..\Build\Assets\Materials\ogre.instance.json">
+      <Filter>Assets\Materials</Filter>
+    </None>
+    <None Include="..\Build\Assets\Materials\phong.material.json">
+      <Filter>Assets\Materials</Filter>
+    </None>
+    <None Include="..\Build\Assets\Materials\MarthClothesArmor.instance.json">
+      <Filter>Assets\Materials</Filter>
     </None>
   </ItemGroup>
 </Project>

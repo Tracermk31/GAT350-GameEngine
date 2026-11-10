@@ -36,12 +36,14 @@ Output main(Input input) {
     output.uv = (input.uv * material.uvTiling) + material.offset;
     output.position = mul(mvp, float4(input.position, 1.0f));
     
-    float3 normals = normalize(mul((float3x3) worldMatrix, input.normal));
+    float3 normal = normalize(mul((float3x3) worldMatrix, input.normal));
     float3 worldPosition = mul(worldMatrix, float4(input.position, 1.0f)).xyz;
     float3 viewDirection = normalize(cameraPosition - worldPosition);
     
+    output.diffuseLighting = ambient;
+    
     for (uint index = 0; index < numLights; index++) {
-        calculateLighting(lights[index], material, worldPosition, normals, viewDirection, output.diffuseLighting, output.specularLighting);
+        calculateLighting(lights[index], material, worldPosition, normal, viewDirection, output.diffuseLighting, output.specularLighting);
     }
     
     return output;

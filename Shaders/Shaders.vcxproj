@@ -135,6 +135,9 @@
     <FxCompile Include="phong.frag.hlsl" />
     <FxCompile Include="phong.vert.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Uniforms.hlsli" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

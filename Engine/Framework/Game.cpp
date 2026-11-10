@@ -20,8 +20,8 @@ namespace ChiefEngine {
 	/// <param name="dt"></param>
 	/// <param name="maxX"></param>
 	/// <param name="maxY"></param>
-	void Game::Update(float dt, float maxX, float maxY) {
-		m_scene->Update(dt, maxX, maxY);
+	void Game::Update(float dt) {
+		m_scene->Update(dt);
 	}
 
 	/// <summary>

@@ -70,6 +70,12 @@ namespace ChiefEngine {
 		/// </summary>
 		/// <returns></returns>
 		glm::vec2 GetMousePosition() const { return m_mousePosition; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		glm::vec2 GetMouseDelta() const { return m_mousePosition - m_prevMousePosition; }
 	private:
 		//Keyboard
 		int m_numKeys = 0;
@@ -79,7 +85,9 @@ namespace ChiefEngine {
 		//Mouse
 		uint32_t m_buttonStates = 0;
 		uint32_t m_prevButtonStates = 0;
+
 		glm::vec2 m_mousePosition{ 0 };
+		glm::vec2 m_prevMousePosition{ 0 };
 
 		uint32_t GetButtonBit(MouseButton button) const;
 	};

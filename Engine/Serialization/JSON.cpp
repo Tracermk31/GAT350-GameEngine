@@ -151,7 +151,7 @@ namespace ChiefEngine::JSON {
     /// <returns></returns>
     bool Read(const value_t& value, const std::string& name, float& data, bool required) {
         // check if the value has the “" and the correct data type 
-        if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsFloat()) {
+        if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsNumber()) {
             if (required) {
                 std::cerr << "Could not read JSON value (float):" << name << std::endl;
             }
@@ -264,6 +264,42 @@ namespace ChiefEngine::JSON {
     /// <param name="data"></param>
     /// <param name="required"></param>
     /// <returns></returns>
+    bool Read(const value_t& value, const std::string& name, glm::vec4& data, bool required) {
+        // check if the value has the "<name>" and is an array with 2 elements
+        if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray() || value[name.c_str()].Size() != 4) {
+            if (required) {
+                std::cerr << "Could not read JSON value (glm::vec3):" << name << std::endl;
+            }
+            return false;
+        }
+
+        // get json array object
+        auto& array = value[name.c_str()];
+
+        // get array values, iterate through each element
+        for (rapidjson::SizeType i = 0; i < array.Size(); i++) {
+            if (!array[i].IsNumber()) {
+                if (required) {
+                    std::cerr << "Could not read JSON value (glm::vec3):" << name << std::endl;
+                }
+                return false;
+            }
+
+            // get the data
+            data[i] = array[i].GetFloat();
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="name"></param>
+    /// <param name="data"></param>
+    /// <param name="required"></param>
+    /// <returns></returns>
     bool Read(const value_t& value, const std::string& name, std::vector<int>& data, bool required) {
         // check if the value has the "<name>" and is an array with 2 elements
         if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray()) {
@@ -287,6 +323,42 @@ namespace ChiefEngine::JSON {
 
             // get the data
             data.push_back(array[i].GetInt());
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="name"></param>
+    /// <param name="data"></param>
+    /// <param name="required"></param>
+    /// <returns></returns>
+    bool Read(const value_t& value, const std::string& name, std::vector<std::string>& data, bool required) {
+        // check if the value has the "<name>" and is an array with elements
+        if (!value.HasMember(name.c_str()) || !value[name.c_str()].IsArray()) {
+            if (required) {
+                std::cerr << "Could not read JSON value (std::vector<string>):" << name << std::endl;
+            }
+            return false;
+        }
+
+        // get json array object
+        auto& array = value[name.c_str()];
+
+        // get array values, iterate through each element
+        for (rapidjson::SizeType i = 0; i < array.Size(); i++) {
+            if (!array[i].IsString()) {
+                if (required) {
+                    std::cerr << "Could not read JSON value (std::vector<string>):" << name << std::endl;
+                }
+                return false;
+            }
+
+            // get the data
+            data.push_back(array[i].GetString());
         }
 
         return true;

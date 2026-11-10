@@ -23,7 +23,7 @@ namespace ChiefEngine {
 
 		bool Load(const std::string& sceneName);
 
-		void Update(float dt, float maxX, float maxY);
+		void Update(float dt);
 		void Draw(const class Renderer& renderer);
 
 		void SetGame(Game* game) { m_game = game; }
@@ -61,6 +61,19 @@ namespace ChiefEngine {
 				}
 			}
 			return nullptr;
+		}
+
+		template<typename T = Actor>
+		inline std::vector<T*> GetActorsByTag(const std::string& tag) {
+			std::vector<T*> result;
+
+			for (auto& actor : m_actors) {
+				T* tempActor = dynamic_cast<T*>(actor.get());
+				if (tempActor && tempActor->m_tag._Equal(tag)) {
+					result.push_back(tempActor);
+				}
+			}
+			return result;
 		}
 	};
 }

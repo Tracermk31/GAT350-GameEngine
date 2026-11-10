@@ -44,7 +44,7 @@ namespace ChiefEngine {
     /// <param name="dt"> Delta Time for a given Scene.</param>
     /// <param name="maxX">The maximum width of a given Scene.</param>
     /// <param name="maxY">The maximum Height of a given Scene</param>
-    void Actor::Update(float dt, float maxX, float maxY) {
+    void Actor::Update(float dt) {
         if (m_lifespan > 0.0f) {
             m_lifespan -= dt;
             m_destroyed = (m_lifespan <= 0.0f);

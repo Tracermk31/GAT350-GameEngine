@@ -8,8 +8,10 @@
 
 struct Material {
     float4 baseMap;
+    
 	float2 uvTiling;
 	float2 offset;
+    
     float shininess;
     float3 padding;
 };
@@ -27,6 +29,13 @@ struct Light {
     float innerCutoff;
 	float outerCutoff;
     float2 padding;
+};
+
+struct Lighting {
+    Light lights[MAX_LIGHTS];
+    
+    uint numLights;
+    float3 ambient;
 };
 
 float calculatAttenuation(float distance, float range) {
