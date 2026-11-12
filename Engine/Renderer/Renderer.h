@@ -32,6 +32,7 @@ namespace ChiefEngine {
 
 			bool BeginFrame();
 			bool EndFrame();
+			void EndRenderPass();
 
 			void SetColor(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha = 255) const;
 			void SetColorFloat(float red, float green, float blue, float alpha = 1.0f) const;
@@ -57,8 +58,11 @@ namespace ChiefEngine {
 			/// <returns></returns>
 			float getWindowHeight() const { return m_window_size.y; }
 
-			SDL_GPUDevice* GetGPUDevice() const { return m_gpuDevice; }
 			SDL_Window* GetWindow() const { return m_window; }
+			SDL_GPUDevice* GetGPUDevice() const { return m_gpuDevice; }
+			SDL_GPUTexture* GetGPUTexture() const { return m_depthTexture; }
+			SDL_GPUTexture* GetGPUSwapchainTexture() const { return m_swapchainTexture; }
+			SDL_GPUCommandBuffer* GetGPUCommandBuffer() const { return m_commandBuffer; }
 
 			void SetPipeline(const class Pipeline& pipeline) const;
 			void SetIndexBuffer(const IndexBuffer& indexBuffer) const;
@@ -88,6 +92,7 @@ namespace ChiefEngine {
 			SDL_GPURenderPass* m_renderPass = nullptr;
 			SDL_GPUCommandBuffer* m_commandBuffer = nullptr;
 			SDL_GPUTexture* m_depthTexture = nullptr;
+			SDL_GPUTexture* m_swapchainTexture = nullptr;
 
 			glm::vec2 m_window_size { 0.0f };
 	};

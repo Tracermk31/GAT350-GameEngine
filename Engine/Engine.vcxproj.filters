@@ -79,6 +79,24 @@
     <Filter Include="Physics\Sources">
       <UniqueIdentifier>{69f8870e-5ab8-4171-a982-47f4b86bff94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{83d6d3ab-7e28-436b-8fcc-134186dcf3d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ImGUI">
+      <UniqueIdentifier>{6651a24f-ec14-4ca3-8cde-cf48bc318d3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Headers">
+      <UniqueIdentifier>{7e7bdbc3-62b1-4a3c-b724-969ff17857f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Sources">
+      <UniqueIdentifier>{96ca0d89-eccf-4063-bead-9e7a5872f1ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ImGUI\Headers">
+      <UniqueIdentifier>{0dd7b251-6efc-428a-83a4-41b6303ba57f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ImGUI\Sources">
+      <UniqueIdentifier>{e3d59649-ecaf-45c5-be1e-783d49a10534}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components\ColliderComponent.h">
@@ -206,6 +224,36 @@
     <ClInclude Include="Renderer\Material.h">
       <Filter>Renderer\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\imconfig.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\imgui.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\imgui_internal.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\imstb_rectpack.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\imstb_textedit.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\imstb_truetype.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\Editor.h">
+      <Filter>Editor\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\backends\imgui_impl_sdl3.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\backends\imgui_impl_sdlgpu3.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ThirdParty\ImGUI\backends\imgui_impl_sdlgpu3_shaders.h">
+      <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
@@ -284,6 +332,30 @@
     </ClCompile>
     <ClCompile Include="Renderer\MaterialInstance.cpp">
       <Filter>Renderer\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\ImGUI\imgui.cpp">
+      <Filter>Editor\ImGUI\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\ImGUI\imgui_demo.cpp">
+      <Filter>Editor\ImGUI\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\ImGUI\imgui_draw.cpp">
+      <Filter>Editor\ImGUI\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\ImGUI\imgui_tables.cpp">
+      <Filter>Editor\ImGUI\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\ImGUI\imgui_widgets.cpp">
+      <Filter>Editor\ImGUI\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Editor.cpp">
+      <Filter>Editor\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\ImGUI\backends\imgui_impl_sdl3.cpp">
+      <Filter>Editor\ImGUI\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ThirdParty\ImGUI\backends\imgui_impl_sdlgpu3.cpp">
+      <Filter>Editor\ImGUI\Sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

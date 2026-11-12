@@ -32,6 +32,8 @@ int main() {
     while (running) {
 
         // UPDATE
+        //G_Engine().GetEditor().ProcessEvent(event);
+
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_EVENT_QUIT) {
                 running = false;
@@ -48,10 +50,17 @@ int main() {
         // SCENE
         scene.Update(dt);
 
+        // EDITOR
+        //G_Engine().GetEditor().BeginFrame();
+        //G_Engine().GetEditor().Update();
+
         // RENDER
         G_Engine().GetRenderer().BeginFrame();
 
         scene.Draw(G_Engine().GetRenderer());
+
+        //G_Engine().GetRenderer().EndRenderPass();
+        //G_Engine().GetEditor().Draw(G_Engine().GetRenderer());
 
         G_Engine().GetRenderer().EndFrame();
     }

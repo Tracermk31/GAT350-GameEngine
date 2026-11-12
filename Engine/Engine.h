@@ -9,6 +9,8 @@
 
 #include "Audio/Audio.h"
 
+#include "Editor/Editor.h"
+
 #include "Framework/Actor.h"
 #include "Framework/Scene.h"
 
@@ -78,13 +80,14 @@ namespace ChiefEngine {
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		//Physics& GetPhysics() { return m_physics; }
+		Editor& GetEditor() { return *m_editor; }
+
 	private:
 		Time m_time;
 		Input m_input;
 		Renderer m_renderer;
 		Audio m_audioSystem;
-		//Physics m_physics;
+		std::unique_ptr<Editor> m_editor;
 	};
 
 	inline Engine& G_Engine() { return Engine::Instance(); }

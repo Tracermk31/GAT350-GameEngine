@@ -13,9 +13,11 @@ namespace ChiefEngine {
 	/// <returns></returns>
 	bool Engine::Initialize(float screenWidth, float screenHeight) {
 		m_renderer.Initialize("Chief Engine", (short)screenWidth, (short)screenHeight);
+		m_editor = std::make_unique<Editor>();
+		m_editor->Initialize(m_renderer);
 		m_input.Initialize();
-		m_time.Reset();
 		m_audioSystem.Initialize();
+		m_time.Reset();
 		return true;
 	};
 
@@ -23,10 +25,10 @@ namespace ChiefEngine {
 	/// 
 	/// </summary>
 	void Engine::Shutdown() {
-		m_input.Shutdown();
 		m_renderer.ShutDown();
+		m_editor->Shutdown();
+		m_input.Shutdown();
 		m_audioSystem.Shutdown();
-		//m_physics.Shutdown();
 	};
 
 	/// <summary>
