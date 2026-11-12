@@ -24,9 +24,6 @@ namespace ChiefEngine {
 		void Update(float dt);
 		void Draw(const class Renderer& renderer);
 
-		//void SetGame(Game* game) { m_game = game; }
-		//Game* GetGame() { return m_game; }
-
 		/// <summary>
 		/// 
 		/// </summary>

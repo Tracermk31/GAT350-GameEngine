@@ -31,7 +31,7 @@ namespace ChiefEngine {
 		// make sure this is an instance file, not a material template
 		std::string type;
 		JSON_READ_BY_DATA(document, type);
-		if (type != "material_instance") {
+		if (type != "MaterialInstance") {
 			std::cerr << "Not a material instance file (type: \"" << type << "\"): " << filename << std::endl;
 			return false;
 		}
@@ -53,8 +53,8 @@ namespace ChiefEngine {
 		JSON_READ_MEMBER(document, "shininess", m_data.shininess);
 
 		// textures by slot name: "textures": { "base_map": "textures/brick.png" }
-		if (JSON_HAS_BY_DATA(document, "textures")) {
-			for (const auto& entry : JSON_GET_BY_DATA(document, "textures").GetObject())
+		if (JSON_HAS_BY_NAME(document, "textures")) {
+			for (const auto& entry : JSON_GET_BY_NAME(document, "textures").GetObject())
 			{
 				std::string slot = entry.name.GetString();
 				std::string path = entry.value.GetString();

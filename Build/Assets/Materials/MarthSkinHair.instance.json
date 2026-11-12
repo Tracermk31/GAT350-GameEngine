@@ -1,0 +1,6 @@
+{
+	"type": "MaterialInstance",
+	"material": "Materials/phong.material.json",
+	"tiling": [ 1, 1 ],
+	"textures": { "baseMap": "Textures/Marth_SkinHair_BaseColor.png" }
+}

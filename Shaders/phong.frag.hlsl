@@ -38,8 +38,7 @@ Output main(Input input) {
         calculateLighting(lights.lights[index], material, input.worldPosition, normalize(input.normal), viewDirection, diffuseLighting, specularLighting);
     }
     
-    output.color = float4(1, 1, 1, 1);
-    //float4(albedo.rgb * diffuseLighting + specularLighting, albedo.a);
+    output.color = float4(albedo.rgb * diffuseLighting + specularLighting, albedo.a);
   
 	return output;
 }

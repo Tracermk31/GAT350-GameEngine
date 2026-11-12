@@ -18,10 +18,10 @@ namespace ChiefEngine {
             m_pitch = glm::clamp(m_pitch, -89.0f, 89.0f);
         }
 
+        glm::quat rotation = glm::quat_cast(glm::eulerAngleYXZ(glm::radians(m_yaw), glm::radians(m_pitch), 0.0f));
+        m_owner->SetRotation(rotation);
+
         m_direction = { 0.0f, 0.0f, 0.0f };
-
-        m_owner->SetRotation({ m_yaw, m_pitch, m_yaw * m_pitch });
-
         if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_W)) m_direction += m_owner->GetTransform().Forward();
         if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_A)) m_direction -= m_owner->GetTransform().Right();
         if (G_Engine().GetInput().GetKeyDown(SDL_SCANCODE_S)) m_direction -= m_owner->GetTransform().Forward();;

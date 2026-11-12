@@ -46,6 +46,7 @@ namespace ChiefEngine {
 
         void SetPosition(const glm::vec3& position) { m_transform.position = position; }
         void SetRotation(const glm::vec3& rotation) { m_transform.SetRotation(rotation); }
+        void SetRotation(const glm::quat& rotation) { m_transform.SetRotation(rotation); }
         void SetScale(const glm::vec3& scale) { m_transform.scale = scale; }
 
         void BeDestroyed() { m_destroyed = true; }

@@ -6,7 +6,7 @@
       "tag": "Camera",
       "active": true,
       "transform": {
-        "position": [ 0, 0, 20 ],
+        "position": [ 0, 0, 5 ],
         "rotation": [ 0, 0, 0 ],
         "scale": [ 1, 1, 1 ]
       },
@@ -19,7 +19,7 @@
         },
         {
           "type": "CameraControllerComponent",
-          "cameraSpeed": 3,
+          "cameraSpeed": 4,
           "sensitivity": 0.4
         }
       ]
@@ -29,7 +29,7 @@
       "type": "Actor",
       "tag": "Light",
       "transform": {
-        "rotation": [ -60, 30, 0 ]
+        "direction": [0, 90, 0]
       },
       "components": [
         {
@@ -41,34 +41,18 @@
       ]
     },
     {
-      "name": "Light2",
-      "type": "Actor",
-      "tag": "Light",
-      "transform": {
-        "position": [ 5, 5, 0 ]
-      },
-      "components": [
-        {
-          "type": "LightComponent",
-          "lightType": "POINT",
-          "color": [ 1, 1, 1 ],
-          "intensity": 1.0,
-          "range": 40.0
-        }
-      ]
-    },
-    {
       "name": "Marth",
       "type": "Actor",
       "tag": "Marth",
       "transform": {
-        "position": [ 0, 0, 0 ]
+        "position": [ 0, 0, 0 ],
+        "scale": [ 1.0, 1.0, 1.0 ]
       },
       "components": [
         {
           "type": "ModelComponent",
           "model": "Models/Marth.obj",
-          "materials": [ "MarthClothesArmor.instance.json" ]
+          "materials": [ null, "Materials/MarthClothesArmor.instance.json" , "Materials/MarthSkinHair.instance.json" ]
         }
       ]
     }

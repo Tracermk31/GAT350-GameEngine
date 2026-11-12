@@ -204,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Build\Assets\Materials\MarthClothesArmor.instance.json" />
+    <None Include="..\Build\Assets\Materials\MarthSkinHair.instance.json" />
     <None Include="..\Build\Assets\Materials\ogre.instance.json" />
     <None Include="..\Build\Assets\Materials\phong.material.json" />
     <None Include="..\Build\Assets\Scenes\Scene.json" />

@@ -1,6 +1,6 @@
 {
 	"type": "MaterialInstance",
-	"material": "materials/phong.material.json",
+	"material": "Materials/phong.material.json",
 	"tiling": [ 1, 1 ],
-	"textures": { "baseMap": "textures/Marth_Clothes_Armor_Base_Color.png" }
+	"textures": { "baseMap": "Textures/Marth_ClothesArmor_BaseColor.png" }
 }

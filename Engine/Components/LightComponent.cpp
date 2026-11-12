@@ -13,9 +13,9 @@ namespace ChiefEngine {
 
 	void LightComponent::Read(const JSON::value_t& value) {
 		std::string typeName;
-		JSON_READ_MEMBER(value, "light_type", typeName);
-		if (typeName == "directional") m_type = LightType::DIRECTIONAL;
-		else if (typeName == "spot") m_type = LightType::SPOT;
+		JSON_READ_MEMBER(value, "lightType", typeName);
+		if (typeName == "DIRECTIONAL") m_type = LightType::DIRECTIONAL;
+		else if (typeName == "SPOT") m_type = LightType::SPOT;
 		else m_type = LightType::POINT;
 
 		JSON_READ_MEMBER(value, "color", m_color);
