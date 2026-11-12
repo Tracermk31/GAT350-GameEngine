@@ -64,6 +64,7 @@ int main() {
 
         G_Engine().GetRenderer().EndFrame();
     }
+
     // SHUTDOWN
     G_Engine().Shutdown();
 
