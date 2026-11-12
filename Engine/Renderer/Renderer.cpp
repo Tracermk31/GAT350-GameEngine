@@ -40,7 +40,7 @@ namespace ChiefEngine {
         }
 
         SDL_GPUShaderFormat formats = SDL_GPU_SHADERFORMAT_SPIRV | SDL_GPU_SHADERFORMAT_DXIL;
-        m_gpuDevice = SDL_CreateGPUDevice(formats, true, nullptr);
+        m_gpuDevice = SDL_CreateGPUDevice(formats, true, "vulkan");
         if (!m_gpuDevice) {
             std::cerr << "Failed to create GPU Device: " << SDL_GetError() << std::endl;
             SDL_DestroyWindow(m_window);

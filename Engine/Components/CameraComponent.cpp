@@ -16,6 +16,8 @@ namespace ChiefEngine {
 	}
 
 	void CameraComponent::Update(float dt) {
+		m_forward = m_owner->GetTransform().Forward();
+
 		m_view = glm::lookAtRH(m_owner->GetTransform().position, m_owner->GetTransform().position + m_forward, glm::vec3{ 0.0f, 1.0f, 0.0f });
 		m_projection = glm::perspective(glm::radians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
 	}

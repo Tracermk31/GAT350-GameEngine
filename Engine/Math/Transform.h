@@ -3,10 +3,10 @@
 #include "Serialization/JSON.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/transform.hpp>
 
 #include <glm/glm.hpp>
 #include "glm/gtx/norm.hpp"
-#include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/gtc/matrix_transform.hpp>

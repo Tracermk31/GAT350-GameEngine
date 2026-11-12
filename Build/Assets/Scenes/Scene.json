@@ -6,7 +6,7 @@
       "tag": "Camera",
       "active": true,
       "transform": {
-        "position": [ 0, 0, 5 ],
+        "position": [ 0, 0, 20 ],
         "rotation": [ 0, 0, 0 ],
         "scale": [ 1, 1, 1 ]
       },
@@ -58,17 +58,17 @@
       ]
     },
     {
-      "name": "Ogre",
+      "name": "Marth",
       "type": "Actor",
-      "tag": "Ogre",
+      "tag": "Marth",
       "transform": {
         "position": [ 0, 0, 0 ]
       },
       "components": [
         {
           "type": "ModelComponent",
-          "model": "models/ogre.obj",
-          "materials": [ "materials/ogre.instance.json" ]
+          "model": "Models/Marth.obj",
+          "materials": [ "MarthClothesArmor.instance.json" ]
         }
       ]
     }

@@ -27,7 +27,7 @@ namespace ChiefEngine {
 		}
 
 		// the root node is scene->mRootNode
-		std::string directory = ""; //GetParentDirectory(filename) + "/";
+		std::string directory = GetParentDirectory(filename) + "/";
 		LoadMaterials(scene, directory, renderer);
 
 		ProcessNode(scene->mRootNode, scene, renderer);
@@ -168,7 +168,7 @@ namespace ChiefEngine {
 				else {
 					std::string temp = directory + path.C_Str();
 					auto texture = Resources().Get<Texture>(temp, G_Engine().GetRenderer());
-					if (!instance.SetTexture("base_map", texture)) {
+					if (!instance.SetTexture("baseMap", texture)) {
 						std::cerr << "Material has no base_map slot for texture: " << path.C_Str() << std::endl;
 					}
 				}

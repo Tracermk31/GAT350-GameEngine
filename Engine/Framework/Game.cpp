@@ -10,7 +10,7 @@ namespace ChiefEngine {
 
 	bool Game::Initialize() {
 		m_scene = std::make_unique<Scene>();
-		m_scene->SetGame(this);
+		//m_scene->SetGame(this);
 		return true;
 	}
 

@@ -16,7 +16,6 @@ namespace ChiefEngine {
 		m_input.Initialize();
 		m_time.Reset();
 		m_audioSystem.Initialize();
-		//m_physics.Initialize();
 		return true;
 	};
 

@@ -15,8 +15,6 @@ namespace ChiefEngine {
 	private:
 		std::vector<std::unique_ptr<Actor>> m_actors;
 		std::vector<std::unique_ptr<Actor>> m_pendingActors;
-
-		Game* m_game = nullptr;
 	public:
 		void AddActor(std::unique_ptr <Actor> actor);
 		void DeleteActors(bool force = false);
@@ -26,8 +24,8 @@ namespace ChiefEngine {
 		void Update(float dt);
 		void Draw(const class Renderer& renderer);
 
-		void SetGame(Game* game) { m_game = game; }
-		Game* GetGame() { return m_game; }
+		//void SetGame(Game* game) { m_game = game; }
+		//Game* GetGame() { return m_game; }
 
 		/// <summary>
 		/// 

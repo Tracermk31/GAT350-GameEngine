@@ -81,10 +81,10 @@ namespace ChiefEngine {
 		renderer.SetVertexUniform(UniformSlot::LIGHT, &lightUniform, sizeof(lightUniform));
 		renderer.SetFragmentUniform(UniformSlot::LIGHT, &lightUniform, sizeof(lightUniform));
 
-		//auto lights;
-
 		for (const auto& actor : m_actors) {
-			actor->Draw(renderer);
+			if (actor && actor->IsActive()) {
+				actor->Draw(renderer);
+			}
 		}
 	}
 

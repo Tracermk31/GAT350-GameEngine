@@ -3,10 +3,12 @@
 #include "Actor.h"
 #include "Engine.h"
 
+#include "Components/RendererComponent.h"
 #include "Renderer/Texture.h"
 
 namespace ChiefEngine {
     FACTORY_REGISTER(Actor)
+
     /// <summary>
     /// 
     /// </summary>
@@ -21,6 +23,7 @@ namespace ChiefEngine {
             AddComponent(move(clone));
         }
     }
+
     /// <summary>
     /// 
     /// </summary>
@@ -62,14 +65,14 @@ namespace ChiefEngine {
     /// </summary>
     /// <param name="renderer"> The renderer being used to draw</param>
     void Actor::Draw(const Renderer& renderer) const {
-    //    for (auto& component : m_components) {
-    //        auto rendererComponent = dynamic_cast<RendererComponent*>(component.get());
-    //        if (rendererComponent) {
-    //            if (rendererComponent->IsActive()) {
-    //                rendererComponent->Draw(renderer);
-    //            }
-    //        }
-    //    }
+        for (auto& component : m_components) {
+            auto rendererComponent = dynamic_cast<RendererComponent*>(component.get());
+            if (rendererComponent) {
+                if (rendererComponent->IsActive()) {
+                    rendererComponent->Draw(renderer);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -80,7 +83,7 @@ namespace ChiefEngine {
         Object::Read(value);
 
         if (JSON_HAS_BY_NAME(value, "transform")) {
-            //m_transform.Read(value["transform"]);
+            m_transform.Read(value["transform"]);
         }
 
         JSON_READ_MEMBER(value, "tag", m_tag);

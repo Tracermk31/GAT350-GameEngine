@@ -19,7 +19,10 @@ for %%f in ("%INPUT%\*.vert.hlsl") do (
     "%SHADERCROSS%" "%%f" -s HLSL -d SPIRV -t vertex -e main -o "%OUTPUT%\%%~nf.spv"
 
     "%SHADERCROSS%" "%%f" -s HLSL -d DXIL -t vertex -e main -o "%OUTPUT%\%%~nf.dxil"
+    
+    "%SHADERCROSS%" "%%f" -s HLSL -d JSON -t vertex -e main -I "%INPUT%" -o "%OUTPUT%\%%~nf.json" || set FAILED=1
 )
+
 
 REM =========================
 REM Fragment Shaders
@@ -31,6 +34,9 @@ for %%f in ("%INPUT%\*.frag.hlsl") do (
     "%SHADERCROSS%" "%%f" -s HLSL -d SPIRV -t fragment -e main -o "%OUTPUT%\%%~nf.spv"
 
     "%SHADERCROSS%" "%%f" -s HLSL -d DXIL -t fragment -e main -o "%OUTPUT%\%%~nf.dxil"
+
+    "%SHADERCROSS%" "%%f" -s HLSL -d JSON -t fragment -e main -I "%INPUT%" -o "%OUTPUT%\%%~nf.json" || set FAILED=1
 )
+
 
 echo Shader compilation complete.

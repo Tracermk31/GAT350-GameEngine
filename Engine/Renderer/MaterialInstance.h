@@ -22,7 +22,6 @@ namespace ChiefEngine {
 		bool SetTexture(const std::string& name, resource_t<Texture> texture);
 
 		MaterialData& GetData() { return m_data; }
-		const MaterialData& GetData() const { return m_data; }
 
 		const Material& GetMaterial() const { return *m_material; }
 

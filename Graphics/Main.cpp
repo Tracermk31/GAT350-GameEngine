@@ -1,23 +1,20 @@
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "Assets.h"
 #include "Engine.h"
 
 #include "Math/transform.h"
 
+#include "Renderer/Shader.h"
 #include "Renderer/Renderer.h"
 #include "Renderer/Pipeline.h"
-#include "Renderer/Shader.h"
-
-#include "Components/CameraComponent.h"
 
 #include <memory>
-
 
 using namespace ChiefEngine;
 
 const float SCREEN_WIDTH = 1920.0f;
 const float SCREEN_HEIGHT = 1200.0f;
-
-auto renderer = G_Engine().GetRenderer();
 
 int main() {
     SetWorkingDirectory("Assets");
@@ -47,7 +44,6 @@ int main() {
         // ENGINE
         G_Engine().Update();
         float dt = G_Engine().GetTime().getDeltaTime();
-        float time = G_Engine().GetTime().getTime();
 
         // SCENE
         scene.Update(dt);

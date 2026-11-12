@@ -4,6 +4,7 @@
 #include "Renderer.h"
 
 #include "Core/File.h"
+#include "Serialization/JSON.h"
 
 namespace ChiefEngine {
 	Shader::~Shader() {
@@ -14,7 +15,7 @@ namespace ChiefEngine {
 		}
 	}
 
-	bool Shader::Load(const std::string& filename, const Renderer& renderer, uint32_t uniformCount, uint32_t samplerCount) {
+	bool Shader::Load(const std::string& filename, const Renderer& renderer) {
 		// store the renderer's gpu device in m_gpuDevice so the destructor can release the shader later
 		m_gpuDevice = renderer.GetGPUDevice();
 		// figure out the shader stage from the filename
@@ -70,6 +71,18 @@ namespace ChiefEngine {
 			return false;
 		}
 
+		JSON::document_t metadata;
+		if (!JSON::Load(filename + ".json", metadata)) {
+
+			std::cerr << "Could not load shader metadata: " << filename << ".json" << std::endl;
+
+			return false;
+		}
+
+		unsigned int samplers = 0;
+
+		JSON_READ_BY_DATA(metadata, samplers);
+
 		// fill out the shader settings
 		// each field below needs a value, replace each {} using the comment beside it
 		SDL_GPUShaderCreateInfo shaderInfo{
@@ -78,8 +91,8 @@ namespace ChiefEngine {
 			.entrypoint = entrypoint, // todo: the entry function name
 			.format = format, // todo: the shader format found above
 			.stage = stage, // todo: the shader stage found above
-			.num_samplers = samplerCount,
-			.num_uniform_buffers = uniformCount 
+			.num_samplers = samplers,
+			.num_uniform_buffers = 4 
 		};
 
 		// create the shader with SDL_CreateGPUShader(device, &createInfo) and store it in m_gpuShader
