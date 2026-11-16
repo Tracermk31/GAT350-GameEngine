@@ -43,8 +43,9 @@ namespace ChiefEngine {
         inline void Read(const JSON::value_t& value) {
             JSON_READ_BY_DATA(value, position);
 
-            glm::vec3 eulerRotation;
+            glm::vec3 eulerRotation { 0.0f };
             JSON_READ_MEMBER(value, "rotation", eulerRotation);
+            SetRotation(eulerRotation);
             JSON_READ_BY_DATA(value, scale);
         }
     };

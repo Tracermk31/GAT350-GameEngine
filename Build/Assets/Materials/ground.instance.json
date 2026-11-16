@@ -1,0 +1,6 @@
+{
+	"type": "MaterialInstance",
+	"material": "Materials/phong.material.json",
+	"tiling": [ 10, 10 ],
+	"textures": { "baseMap": "Textures/brick_diffuse.png" }
+}

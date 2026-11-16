@@ -32,9 +32,6 @@
     <None Include="..\Build\Assets\Scenes\Scene.json">
       <Filter>Assets\Scenes</Filter>
     </None>
-    <None Include="..\Build\Assets\Materials\ogre.instance.json">
-      <Filter>Assets\Materials</Filter>
-    </None>
     <None Include="..\Build\Assets\Materials\phong.material.json">
       <Filter>Assets\Materials</Filter>
     </None>
@@ -42,6 +39,12 @@
       <Filter>Assets\Materials</Filter>
     </None>
     <None Include="..\Build\Assets\Materials\MarthSkinHair.instance.json">
+      <Filter>Assets\Materials</Filter>
+    </None>
+    <None Include="..\Build\Assets\Materials\Falchion.instance.json">
+      <Filter>Assets\Materials</Filter>
+    </None>
+    <None Include="..\Build\Assets\Materials\ground.instance.json">
       <Filter>Assets\Materials</Filter>
     </None>
   </ItemGroup>
