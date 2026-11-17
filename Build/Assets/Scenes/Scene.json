@@ -18,25 +18,25 @@
         },
         {
           "type": "CameraControllerComponent",
-          "cameraSpeed": 4,
+          "cameraSpeed": 10.0,
           "sensitivity": 0.4
         }
       ]
     },
     {
-      "name": "Light1",
+      "name": "Sun",
       "type": "Actor",
       "tag": "Light",
       "transform": {
-        "position" : [0, 500, 0],
-        "direction": [ 0, 0, 0 ]
+        "position": [ 0, 500, 0 ],
+        "rotation": [-90, 0, 0]
       },
       "components": [
         {
           "type": "LightComponent",
           "lightType": "DIRECTIONAL",
-          "color": [ 0.5, 0.5, 0.5 ],
-          "intensity": 1.0
+          "color": [ 0.8, 0.8, 0.8 ],
+          "intensity": 0.4
         }
       ]
     },
@@ -53,7 +53,7 @@
           "type": "LightComponent",
           "lightType": "POINT",
           "color": [ 1.0, 1.0, 1.0 ],
-          "intensity": 1.0,
+          "intensity": 0.2,
           "range": 80
         }
       ]

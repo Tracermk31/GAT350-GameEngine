@@ -22,6 +22,12 @@ namespace ChiefEngine {
 		m_projection = glm::perspective(glm::radians(m_fov), m_aspectRatio, m_nearPlane, m_farPlane);
 	}
 
+	void CameraComponent::UpdateGui() {
+		ImGui::DragFloat("FoV", &m_fov, 0.1f);
+		ImGui::DragFloat("Near Plane ", &m_nearPlane, 0.1f);
+		ImGui::DragFloat("Far Plane", &m_farPlane, 0.1f);
+	}
+
 	void CameraComponent::Read(const JSON::value_t& value) {
 		Component::Read(value);
 		JSON_READ_MEMBER(value, "fov", m_fov);

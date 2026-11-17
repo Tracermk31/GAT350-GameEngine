@@ -25,6 +25,18 @@ namespace ChiefEngine {
 		JSON_READ_MEMBER(value, "outerAngle", m_outerAngle);
 	}
 
+	void LightComponent::UpdateGui() {
+		const char* types[] = { "DIRECTIONAL", "POINT", "SPOT" };
+		ImGui::Combo("Type", (int*)(&m_type), types, 3);
+
+		ImGui::ColorEdit3("Light Color", glm::value_ptr(m_color));
+		ImGui::SliderFloat("Intensity", &m_intensity, 0.0f, 10.0f);
+
+		if (m_type != LightType::DIRECTIONAL) {
+			ImGui::SliderFloat("Range", &m_range, 0.0f, 100.0f);
+		}
+	}
+
 	LightData LightComponent::GetLightData() const {
 		const Transform& transform = m_owner->GetTransform();
 

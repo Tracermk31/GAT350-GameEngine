@@ -60,6 +60,35 @@ namespace ChiefEngine {
         }
     }
 
+
+    void Actor::UpdateGui() {
+        ImGui::Checkbox("##Active", &m_active);
+        ImGui::SameLine();
+
+        Object::UpdateGui();
+
+        ImGui::Text("Tag: %s", m_tag.c_str());
+        ImGui::Separator();
+        if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
+            m_transform.UpdateGui();            
+        }
+
+        for (auto& component : m_components) {
+            ImGui::PushID(component.get());
+            ImGui::Separator();
+
+            bool active = component->IsActive();
+            if (ImGui::Checkbox("##Active", &active)) component->SetActive(active);
+            ImGui::SameLine();
+
+            if (ImGui::CollapsingHeader(component->GetClassName().c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
+                component->UpdateGui();
+            }
+
+            ImGui::PopID();
+        }
+    }
+
     /// <summary>
     /// Draw function that draws the Actor onto the screen using the renderer
     /// </summary>

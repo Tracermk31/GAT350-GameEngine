@@ -2,7 +2,7 @@
 
 #include "Actor.h"
 
-#include "Components/ColliderComponent.h"
+#include "Editor/Editor.h"
 
 #include <memory>
 #include <string>
@@ -11,18 +11,26 @@
 namespace ChiefEngine {
 	class Game;
 
-	class Scene {
+	class Scene : public IGui {
 	private:
 		std::vector<std::unique_ptr<Actor>> m_actors;
 		std::vector<std::unique_ptr<Actor>> m_pendingActors;
+
+		glm::vec3 m_ambientLight{ 0.8f };
 	public:
 		void AddActor(std::unique_ptr <Actor> actor);
 		void DeleteActors(bool force = false);
 
+		const std::vector<std::unique_ptr<Actor>>& GetActors() { return m_actors; }
+
 		bool Load(const std::string& sceneName);
 
+
 		void Update(float dt);
+		void UpdateGui() override;
+
 		void Draw(const class Renderer& renderer);
+
 
 		/// <summary>
 		/// 

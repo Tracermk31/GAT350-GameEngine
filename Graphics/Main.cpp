@@ -13,8 +13,8 @@
 
 using namespace ChiefEngine;
 
-const float SCREEN_WIDTH = 1920.0f;
-const float SCREEN_HEIGHT = 1200.0f;
+const float SCREEN_WIDTH = 2560.0f;
+const float SCREEN_HEIGHT = 1600.0f;
 
 int main() {
     SetWorkingDirectory("Assets");
@@ -32,9 +32,9 @@ int main() {
     while (running) {
 
         // UPDATE
-        G_Engine().GetEditor().ProcessEvent(event);
 
         while (SDL_PollEvent(&event)) {
+            G_Engine().GetEditor().ProcessEvent(event);
             if (event.type == SDL_EVENT_QUIT) {
                 running = false;
             }
@@ -52,7 +52,7 @@ int main() {
 
         // EDITOR
         G_Engine().GetEditor().BeginFrame();
-        G_Engine().GetEditor().Update();
+        G_Engine().GetEditor().Update(scene);
 
         // RENDER
         G_Engine().GetRenderer().BeginFrame();

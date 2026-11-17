@@ -10,6 +10,9 @@ namespace ChiefEngine {
 		void Start() override;
 		void Draw(const class Renderer& renderer) const override {};
 		void Update(float dt) override;
+
+		void UpdateGui() override;
+
 		void Read(const JSON::value_t& value) override;
 
 		const glm::mat4x4& GetView() const { return m_view; }

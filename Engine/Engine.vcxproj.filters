@@ -99,9 +99,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components\ColliderComponent.h">
-      <Filter>Components\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Components\RendererComponent.h">
       <Filter>Components\Headers</Filter>
     </ClInclude>
@@ -175,9 +172,6 @@
     <ClInclude Include="Serialization\JSON.h">
       <Filter>Serialization\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Components\PhysicsComponent.h">
-      <Filter>Components\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Renderer\Pipeline.h">
       <Filter>Renderer\Headers</Filter>
@@ -204,9 +198,6 @@
       <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Components\CameraComponent.h">
-      <Filter>Components\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Components\MaterialComponent.h">
       <Filter>Components\Headers</Filter>
     </ClInclude>
     <ClInclude Include="Components\CameraControllerComponent.h">
@@ -291,9 +282,6 @@
       <Filter>Serialization\Sources</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Components\PhysicsComponent.cpp">
-      <Filter>Components\SourceFiles</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer\Pipeline.cpp">
       <Filter>Renderer\Sources</Filter>
     </ClCompile>
@@ -319,9 +307,6 @@
       <Filter>Components\SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Components\CameraComponent.cpp">
-      <Filter>Components\SourceFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Components\MaterialComponent.cpp">
       <Filter>Components\SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Components\CameraControllerComponent.cpp">

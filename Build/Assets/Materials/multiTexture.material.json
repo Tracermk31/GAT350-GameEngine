@@ -1,0 +1,11 @@
+{
+	"type": "material",
+	"vertexShader": "Shaders/phong.vert",
+	"fragmentShader": "Shaders/multiTexture.frag",
+	"textures": [ "baseMapZero", "baseMapOne" ],
+	"baseColor": [ 1.0, 1.0, 1.0, 1.0 ],
+	"specularColor": [ 1.0, 1.0, 1.0 ],
+	"shininess": 128.0,
+	"tiling": [ 1.0, 1.0 ],
+	"offset": [ 0.0, 0.0 ]
+}

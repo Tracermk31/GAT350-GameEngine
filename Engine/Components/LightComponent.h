@@ -12,9 +12,11 @@ namespace ChiefEngine {
 		void Draw(const class Renderer& renderer) const override;
 		void Read(const JSON::value_t& value) override;
 
+		void UpdateGui() override;
+
 		LightData GetLightData() const;
 	private:
-		LightType m_type;
+		LightType m_type = LightType::DIRECTIONAL;
 		glm::vec3 m_color{ 1.0f };
 		float m_intensity = 1.0f;
 		float m_range = 20.0f;

@@ -74,11 +74,14 @@ namespace ChiefEngine {
 			void SetVertexUniform(UniformSlot slot, const void* data, uint32_t size) const;
 			void SetFragmentUniform(UniformSlot slot, const void* data, uint32_t size) const;
 
-			void SetFragmentTexture(uint32_t slot, const class Texture& texture);
+			void SetFragmentTexture(uint32_t slot, const Texture& texture);
 
 			void SetMaterial(const class MaterialInstance& materialInstance) const;
 
 			void CreateDepthBuffer();
+
+			void SetClearColor(const glm::vec3& clearColor) { m_clearColor = clearColor; }
+			const glm::vec3& GetClearColor() const { return m_clearColor; }
 
 			friend Texture;
 			friend class Shader;
@@ -95,5 +98,7 @@ namespace ChiefEngine {
 			SDL_GPUTexture* m_swapchainTexture = nullptr;
 
 			glm::vec2 m_window_size { 0.0f };
+
+			glm::vec3 m_clearColor{0.0f};
 	};
 }

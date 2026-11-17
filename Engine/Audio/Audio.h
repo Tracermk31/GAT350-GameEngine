@@ -1,7 +1,5 @@
 #pragma once
 
-#include "pch.h"
-
 #include <map>
 #include <string>
 #include <fmod.hpp>

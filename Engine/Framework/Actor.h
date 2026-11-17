@@ -32,6 +32,7 @@ namespace ChiefEngine {
         CLASS_PROTOTYPE(Actor)
 
         virtual void Update(float dt);
+        void UpdateGui() override;
         virtual void Draw(const class Renderer& renderer) const;
 
         virtual void Start();

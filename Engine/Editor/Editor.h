@@ -7,7 +7,7 @@
 namespace ChiefEngine {
 	class Renderer;
 
-	class IGUI {
+	class IGui {
 	public:
 		virtual void UpdateGui() = 0;
 	};
@@ -17,7 +17,7 @@ namespace ChiefEngine {
 		bool Initialize(Renderer& renderer);
 		void Shutdown();
 
-		void Update();
+		void Update(class Scene& scene);
 		void ProcessEvent(const SDL_Event& event);
 
 		void BeginFrame();
@@ -27,6 +27,11 @@ namespace ChiefEngine {
 		bool GetActive() { return m_active; }
 
 	private:
+		void UpdateHierarchy(class Scene& scene);
+		void UpdateInspector();
+		void UpdateAssets();
+
 		bool m_active = true;
+		class Object* m_selectedObject = nullptr;
 	};
 }

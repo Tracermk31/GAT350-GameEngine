@@ -8,6 +8,8 @@ namespace ChiefEngine {
 		CLASS_PROTOTYPE(CameraControllerComponent)
 
 		void Update(float dt) override;
+		void UpdateGui() override;
+
 		void Read(const JSON::value_t& value);
 	private:
 		glm::vec3 m_direction{ 0.0f };

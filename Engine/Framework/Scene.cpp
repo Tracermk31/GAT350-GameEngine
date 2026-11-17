@@ -1,9 +1,10 @@
 #include "pch.h"
 
 #include "Scene.h"
+#include "Engine.h"
 
-#include "Components/CameraComponent.h"
 #include "Components/LightComponent.h"
+#include "Components/CameraComponent.h"
 
 #include "Core/Factory.h"
 
@@ -68,12 +69,15 @@ namespace ChiefEngine {
 			}
 		}
 		LightUniform lightUniform{};
-		lightUniform.ambient = glm::vec3{ 0.2f };
+		lightUniform.ambient = m_ambientLight;
 
 		auto lights = GetActorsByTag("Light");
 		for (auto light : lights) {
+			if (!light->IsActive()) {
+				continue;
+			}
 			auto lightComponent = light->GetComponent<LightComponent>();
-			if (lightComponent) {
+			if (lightComponent && lightComponent->IsActive()) {
 				lightUniform.lights[lightUniform.numLights++] = lightComponent->GetLightData();
 			}
 		}
@@ -134,5 +138,13 @@ namespace ChiefEngine {
 		else {
 			return false;
 		}
+	}
+
+	void Scene::UpdateGui() {
+		ImGui::ColorEdit3("Ambient Light", glm::value_ptr(m_ambientLight));
+
+		glm::vec3 clearColor = G_Engine().GetRenderer().GetClearColor();
+		ImGui::ColorEdit3("Clear Color", glm::value_ptr(clearColor));
+		G_Engine().GetRenderer().SetClearColor(clearColor);
 	}
 }

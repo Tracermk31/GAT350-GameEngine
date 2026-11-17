@@ -132,6 +132,7 @@
     <ClInclude Include="Lighting.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="multiTexture.frag.hlsl" />
     <FxCompile Include="phong.frag.hlsl" />
     <FxCompile Include="phong.vert.hlsl" />
   </ItemGroup>

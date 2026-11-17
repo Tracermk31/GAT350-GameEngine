@@ -1,8 +1,8 @@
 #include "Lighting.hlsli"
 #include "Uniforms.hlsli"
 
-Texture2D<float4> u_texture : register(t0, space2);
-SamplerState u_sampler : register(s0, space2);
+Texture2D<float4> base_texture : register(t0, FRAGMENT_TEXTURE_SPACE);
+SamplerState base_sampler : register(s0, FRAGMENT_TEXTURE_SPACE);
 
 cbuffer FrameUniforms : register(FRAME_SLOT, FRAGMENT_UNIFORM_SPACE) {
     Frame frame;
@@ -28,7 +28,7 @@ struct Output {
 
 Output main(Input input) {
 	Output output;
-    float4 albedo = u_texture.Sample(u_sampler, input.uv) * material.baseMap;
+    float4 albedo = base_texture.Sample(base_sampler, input.uv) * material.baseMap;
     float3 viewDirection = normalize(frame.cameraPosition - input.worldPosition);
    
     float3 diffuseLighting = lights.ambient;
