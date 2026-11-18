@@ -1,0 +1,12 @@
+{
+	"type": "MaterialInstance",
+	"material": "Materials/phong.material.json",
+	"tiling": [ 10.0, 10.0 ],
+	"emissiveColor": [ 1.0, 1.0, 1.0 ],
+	"shininess": 8.0,
+	"textures": {
+		"baseMap": "Textures/lava_diffuse.png",
+		"specularMap": "Textures/lava_specular.png",
+		"emissiveMap": "Textures/lava_emissive.png"
+	}
+}

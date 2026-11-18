@@ -26,6 +26,12 @@ namespace ChiefEngine {
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="name"></param>
+		void SetName(const std::string& name) { m_name = name; }
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <returns></returns>
 		bool IsActive() const { return m_active; }
 
@@ -52,12 +58,6 @@ namespace ChiefEngine {
 		}
 
 	protected:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="name"></param>
-		void SetName(const std::string& name) { m_name = name; }
-
 		std::string m_name = "[DEFAULT]";
 		bool m_active = true;
 	};

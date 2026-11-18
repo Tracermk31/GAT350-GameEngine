@@ -39,6 +39,9 @@ namespace ChiefEngine {
 				}
 			}
 		}
+	}
+
+	void ModelComponent::UpdateGui() {
 
 	}
 }

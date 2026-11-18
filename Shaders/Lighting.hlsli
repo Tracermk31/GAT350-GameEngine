@@ -7,13 +7,16 @@
 #define MAX_LIGHTS          8
 
 struct Material {
-    float4 baseMap;
+    float4 baseColor;
+    
+    float3 specularColor;
+    float shininess;
+    
+    float3 emissiveColor;
+    float padding;
     
 	float2 uvTiling;
 	float2 offset;
-    
-    float shininess;
-    float3 padding;
 };
 
 struct Light {

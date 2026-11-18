@@ -7,6 +7,8 @@
 
 #include "Renderer/Renderer.h"
 
+#include "Resources/ResourceManager.h"
+
 namespace ChiefEngine {
 	bool Editor::Initialize(Renderer& renderer) {
 		IMGUI_CHECKVERSION();
@@ -115,6 +117,16 @@ namespace ChiefEngine {
 	}
 
 	void Editor::UpdateAssets() {
+		ImGui::Begin("Assets");
 
+		for (auto& resource : Resources().GetAll()) {
+			ImGui::PushID(resource.second.get());
+			if (ImGui::Selectable(resource.second->GetName().c_str(), m_selectedObject == resource.second.get())) {
+				m_selectedObject = resource.second.get();
+			}
+			ImGui::PopID();
+		}
+
+		ImGui::End();
 	}
 }

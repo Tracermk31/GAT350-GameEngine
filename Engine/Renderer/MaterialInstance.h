@@ -25,6 +25,7 @@ namespace ChiefEngine {
 
 		const Material& GetMaterial() const { return *m_material; }
 
+		void UpdateGui() override;
 	private:
 		resource_t<Material> m_material;
 		MaterialData m_data;

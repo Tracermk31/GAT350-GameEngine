@@ -28,6 +28,8 @@ namespace ChiefEngine {
 		}
 
 		JSON_READ_MEMBER(document, "baseColor", m_defaults.baseColor);
+		JSON_READ_MEMBER(document, "specularColor", m_defaults.specularColor);
+		JSON_READ_MEMBER(document, "emissiveColor", m_defaults.emissiveColor);
 		JSON_READ_MEMBER(document, "tiling", m_defaults.tiling);
 		JSON_READ_MEMBER(document, "offset", m_defaults.offset);
 		JSON_READ_MEMBER(document, "shininess", m_defaults.shininess);

@@ -11,6 +11,8 @@ namespace ChiefEngine {
 
 		void Draw(const class Renderer& renderer) const override;
 		void Read(const JSON::value_t& value) override;
+
+		void UpdateGui() override;
 	private:
 		resource_t<class Model> m_model;
 		std::vector<resource_t<class MaterialInstance>> m_materials;

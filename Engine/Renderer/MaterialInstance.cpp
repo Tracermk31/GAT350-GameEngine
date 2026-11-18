@@ -9,6 +9,8 @@
 
 #include "Serialization/Json.h"
 
+#include "glm/gtc/type_ptr.hpp"
+
 namespace ChiefEngine {
 	MaterialInstance::MaterialInstance(const resource_t<Material> material) {
 		Initialize(material);
@@ -48,6 +50,8 @@ namespace ChiefEngine {
 
 		// only values present in the file override the defaults
 		JSON_READ_MEMBER(document, "baseColor", m_data.baseColor);
+		JSON_READ_MEMBER(document, "specularColor", m_data.specularColor);
+		JSON_READ_MEMBER(document, "emissiveColor", m_data.emissiveColor);
 		JSON_READ_MEMBER(document, "tiling", m_data.tiling);
 		JSON_READ_MEMBER(document, "offset", m_data.offset);
 		JSON_READ_MEMBER(document, "shininess", m_data.shininess);
@@ -104,5 +108,15 @@ namespace ChiefEngine {
 
 		m_textures[slot] = texture;
 		return true;
+	}
+
+	void MaterialInstance::UpdateGui() {
+		ImGui::ColorEdit4("Base Color", glm::value_ptr(m_data.baseColor));
+		ImGui::ColorEdit3("Specular Color", glm::value_ptr(m_data.specularColor));
+		ImGui::ColorEdit3("Emissive Color", glm::value_ptr(m_data.emissiveColor));
+
+		ImGui::SliderFloat("Shininess", &m_data.shininess, 2, 256);
+		ImGui::DragFloat2("Tiling", glm::value_ptr(m_data.tiling), 2, 256);
+		ImGui::DragFloat2("Offset", glm::value_ptr(m_data.offset), 2, 256);
 	}
 }

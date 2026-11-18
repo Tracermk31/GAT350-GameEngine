@@ -21,16 +21,18 @@ namespace ChiefEngine {
 		void AddActor(std::unique_ptr <Actor> actor);
 		void DeleteActors(bool force = false);
 
-		const std::vector<std::unique_ptr<Actor>>& GetActors() { return m_actors; }
-
 		bool Load(const std::string& sceneName);
-
 
 		void Update(float dt);
 		void UpdateGui() override;
 
 		void Draw(const class Renderer& renderer);
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		const std::vector<std::unique_ptr<Actor>>& GetActors() { return m_actors; }
 
 		/// <summary>
 		/// 

@@ -19,7 +19,7 @@ struct Output {
 
 Output main(Input input) {
 	Output output;
-    float4 albedo = u_texture.Sample(u_sampler, input.uv) * material.baseMap;
+    float4 albedo = u_texture.Sample(u_sampler, input.uv) * material.baseColor;
     output.color = float4(albedo.rgb * input.diffuseLighting + input.specularLighting, albedo.a);
   
 	return output;

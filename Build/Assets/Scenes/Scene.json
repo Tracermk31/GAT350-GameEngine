@@ -70,7 +70,7 @@
         {
           "type": "ModelComponent",
           "model": "Models/plane.obj",
-          "materials": [ null, "Materials/ground.instance.json" ]
+          "materials": [ "Materials/lava.instance.json" ]
         }
       ]
     },
@@ -86,7 +86,7 @@
         {
           "type": "ModelComponent",
           "model": "Models/Marth.obj",
-          "materials": [ null, "Materials/MarthClothesArmor.instance.json" , "Materials/MarthSkinHair.instance.json" ]
+          "materials": [ "Materials/MarthClothesArmor.instance.json" , "Materials/MarthSkinHair.instance.json" ]
         }
       ]
     },

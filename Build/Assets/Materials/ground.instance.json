@@ -3,5 +3,8 @@
 	"material": "Materials/multiTexture.material.json",
 	"tiling": [ 10.0, 10.0 ],
 	"shininess": 8.0,
-	"textures": { "baseMapZero": "Textures/rock.png", "baseMapOne": "Textures/grass.png" }
+	"textures": {
+		"baseMapZero": "Textures/rock.png",
+		"baseMapOne": "Textures/grass.png"
+	}
 }

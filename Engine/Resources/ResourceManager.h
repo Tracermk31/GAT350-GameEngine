@@ -19,6 +19,7 @@ namespace ChiefEngine {
 			requires std::derived_from<T, Resource>
 		resource_t<T> GetWithID(const std::string& id, const std::string& name, Args&& ... args);
 
+		const auto& GetAll() { return m_resources; }
 		void Clear() { m_resources.clear(); }
 	private:
 		std::map<std::string, resource_t<Resource>> m_resources;
@@ -60,6 +61,7 @@ namespace ChiefEngine {
 			return resource_t<T>();
 		}
 
+		resource->SetName(name);
 		// add resource to resource manager
 		m_resources[id] = resource;
 
