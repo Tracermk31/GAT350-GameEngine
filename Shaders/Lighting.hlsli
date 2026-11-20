@@ -74,30 +74,30 @@ float3 getLightVector(Light light, float3 worldPosition, out float attenuation) 
     return lightWorldPosition;
 }
 
-float3 calculateDiffuseLighting(float3 normals, float3 lightWorldPosition, float3 radiance) {
-    return radiance * saturate(dot(normals, lightWorldPosition));
+float3 calculateDiffuseLighting(float3 normal, float3 lightWorldPosition, float3 radiance) {
+    return radiance * saturate(dot(normal, lightWorldPosition));
 }
 
-float3 calculateSpecularLighting(float3 radiance, float3 viewDirection, float3 normals, float3 lightWorldPosition, Material material) {
+float3 calculateSpecularLighting(float3 radiance, float3 viewDirection, float3 normal, float3 lightWorldPosition, Material material) {
     float3 specular = { 0.0f, 0.0f, 0.0f };
-    float normalizedLighting = saturate(dot(normals, lightWorldPosition));
+    float normalizedLighting = saturate(dot(normal, lightWorldPosition));
     if (normalizedLighting > 0) {
         //Blinn-Phong Specular
         float3 halfwayVector = normalize(viewDirection + lightWorldPosition);
-        float specularLighting = saturate(dot(halfwayVector, normals));
+        float specularLighting = saturate(dot(halfwayVector, normal));
 
         specular = pow(specularLighting, material.shininess) * radiance;
     }
     return specular;
 }
 
-void calculateLighting(Light light, Material material, float3 position, float3 normals, float3 viewDirection, out float3 diffuse, out float3 specular) {
-    float attenuation;
+void calculateLighting(Light light, Material material, float3 position, float3 normal, float3 viewDirection, out float3 diffuse, out float3 specular) {
+    float attenuation = 0;
     float3 lightWorldPosition = getLightVector(light, position, attenuation);
 
     // light arriving at the surface
     float3 radiance = light.color * light.intensity * attenuation;
 
-    diffuse += calculateDiffuseLighting(normals, lightWorldPosition, radiance);
-    specular += calculateSpecularLighting(radiance, viewDirection, normals, lightWorldPosition, material);
+    diffuse += calculateDiffuseLighting(normal, lightWorldPosition, radiance);
+    specular += calculateSpecularLighting(radiance, viewDirection, normal, lightWorldPosition, material);
 }

@@ -2,7 +2,7 @@
 	"type": "material",
 	"vertexShader": "Shaders/phong.vert",
 	"fragmentShader": "Shaders/multiTexture.frag",
-	"textures": [ "baseMapZero", "baseMapOne" ],
+	"textures": [ "baseMapOne", "baseMapTwo", "baseMapBlend", "specularMap", "emissiveMap" ],
 	"baseColor": [ 1.0, 1.0, 1.0, 1.0 ],
 	"specularColor": [ 0.0, 0.0, 0.0 ],
 	"emissiveColor": [ 0.0, 0.0, 0.0 ],

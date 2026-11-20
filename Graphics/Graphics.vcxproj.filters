@@ -50,5 +50,11 @@
     <None Include="..\Build\Assets\Materials\multiTexture.material.json">
       <Filter>Assets\Materials</Filter>
     </None>
+    <None Include="..\Build\Assets\Materials\lava.instance.json">
+      <Filter>Assets\Materials</Filter>
+    </None>
+    <None Include="..\Build\Assets\Materials\ogre.instance.json">
+      <Filter>Assets\Materials</Filter>
+    </None>
   </ItemGroup>
 </Project>

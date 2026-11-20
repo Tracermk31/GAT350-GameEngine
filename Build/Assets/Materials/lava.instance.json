@@ -7,6 +7,7 @@
 	"textures": {
 		"baseMap": "Textures/lava_diffuse.png",
 		"specularMap": "Textures/lava_specular.png",
-		"emissiveMap": "Textures/lava_emissive.png"
+		"emissiveMap": "Textures/lava_emissive.png",
+		"normalMap": "Textures/lava_normal.png"
 	}
 }

@@ -39,6 +39,8 @@ namespace ChiefEngine {
 		// binds and draws every mesh, call between BeginFrame and EndFrame with a pipeline set
 		void Draw(const class Renderer& renderer, const std::vector<resource_t<class MaterialInstance>>& overrides) const;
 
+		void UpdateGui() override;
+
 		friend IndexBuffer;
 		friend VertexBuffer;
 

@@ -191,9 +191,6 @@
     <ClInclude Include="Renderer\Texture.h">
       <Filter>Renderer\Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Components\ModelComponent.h">
-      <Filter>Components\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Components\LightComponent.h">
       <Filter>Components\Headers</Filter>
     </ClInclude>
@@ -244,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="..\ThirdParty\ImGUI\backends\imgui_impl_sdlgpu3_shaders.h">
       <Filter>Editor\ImGUI\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Components\ModelComponent.h">
+      <Filter>Components\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

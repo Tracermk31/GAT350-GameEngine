@@ -70,7 +70,7 @@
         {
           "type": "ModelComponent",
           "model": "Models/plane.obj",
-          "materials": [ "Materials/lava.instance.json" ]
+          "materials": [ null, "Materials/lava.instance.json" ]
         }
       ]
     },
@@ -86,7 +86,7 @@
         {
           "type": "ModelComponent",
           "model": "Models/Marth.obj",
-          "materials": [ "Materials/MarthClothesArmor.instance.json" , "Materials/MarthSkinHair.instance.json" ]
+          "materials": [ null, "Materials/MarthClothesArmor.instance.json", "Materials/MarthSkinHair.instance.json" ]
         }
       ]
     },
@@ -136,6 +136,22 @@
           "type": "ModelComponent",
           "model": "Models/Falchion.fbx",
           "materials": [ "Materials/Falchion.instance.json"]
+        }
+      ]
+    },
+    {
+      "name": "Ogre",
+      "type": "Actor",
+      "tag": "Ogre",
+      "transform": {
+        "position": [ 0, 2, 4 ],
+        "rotation": [ 0, 0, 0 ]
+      },
+      "components": [
+        {
+          "type": "ModelComponent",
+          "model": "Models/Ogre.obj",
+          "materials": [ "Materials/ogre.instance.json"]
         }
       ]
     }

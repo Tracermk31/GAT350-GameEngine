@@ -111,6 +111,8 @@ namespace ChiefEngine {
 	}
 
 	void MaterialInstance::UpdateGui() {
+		ImGui::TextColored({ 0, 1, 0, 1 }, "Color Settings");
+		ImGui::Separator();
 		ImGui::ColorEdit4("Base Color", glm::value_ptr(m_data.baseColor));
 		ImGui::ColorEdit3("Specular Color", glm::value_ptr(m_data.specularColor));
 		ImGui::ColorEdit3("Emissive Color", glm::value_ptr(m_data.emissiveColor));
@@ -118,5 +120,13 @@ namespace ChiefEngine {
 		ImGui::SliderFloat("Shininess", &m_data.shininess, 2, 256);
 		ImGui::DragFloat2("Tiling", glm::value_ptr(m_data.tiling), 2, 256);
 		ImGui::DragFloat2("Offset", glm::value_ptr(m_data.offset), 2, 256);
+
+		ImGui::TextColored({ 0, 1, 0, 1 }, "Textures");
+		for (auto& texture : m_textures) {
+			if (texture) {
+				ImGui::Separator();	
+				texture->UpdateGui();
+			}
+		}
 	}
 }

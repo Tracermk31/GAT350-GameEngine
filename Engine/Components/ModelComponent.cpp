@@ -42,6 +42,22 @@ namespace ChiefEngine {
 	}
 
 	void ModelComponent::UpdateGui() {
+		ImGui::TextColored({ 0.0, 1.0, 0.0, 1.0 }, "Model");
+		if (m_model) {
+			ImGui::Text("%s", m_model->GetName().c_str());
+		}
+		else {
+			ImGui::Text("%s", "None");
+		}
 
+		ImGui::Separator();
+		for (short index = 0; index < m_materials.size(); index++) {
+			if (m_materials.at(index)) {
+				ImGui::Text("Material [%d] - %s", index, m_materials.at(index)->GetName().c_str());
+			}
+			else {
+				ImGui::Text("Material [%d] - %s", index, "Null");
+			}
+		}
 	}
 }

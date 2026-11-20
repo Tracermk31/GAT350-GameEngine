@@ -210,4 +210,12 @@ namespace ChiefEngine {
 		// texture created and uploaded successfully
 		return true;
 	}
+
+	void Texture::UpdateGui() {
+		Resource::UpdateGui();
+		float scale = ImGui::GetContentRegionAvail().x * 0.8f;
+
+		ImGui::Image(m_gpuTexture, ImVec2{scale, scale * (m_height/(float)m_width)});
+		ImGui::Text("%d x %d", m_width, m_height);
+	}
 }

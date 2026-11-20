@@ -20,6 +20,8 @@ namespace ChiefEngine {
 		SDL_GPUTexture* GetGPUTexture() const { return m_gpuTexture; }
 		SDL_GPUSampler* GetGPUSampler() const { return m_gpuSampler; }
 
+		void UpdateGui() override;
+
 		friend class Renderer;
 	private:
 		uint32_t m_width{ 0 };

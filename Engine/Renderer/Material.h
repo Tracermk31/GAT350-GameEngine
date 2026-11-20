@@ -35,6 +35,8 @@ namespace ChiefEngine {
 		const Pipeline& GetPipeline() const { return m_pipeline; }
 		const resource_t<Texture>& GetDefaultTexture() const { return m_defaultTexture; }
 
+		void UpdateGui() override;
+
 	private:
 		resource_t<Shader> m_vertexShader;
 		resource_t<Shader> m_fragmentShader;

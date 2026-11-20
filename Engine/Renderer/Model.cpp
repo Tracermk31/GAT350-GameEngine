@@ -20,7 +20,6 @@ namespace ChiefEngine {
 			aiProcess_GenSmoothNormals |
 			aiProcess_FlipUVs |
 			aiProcess_CalcTangentSpace |
-			aiProcess_RemoveRedundantMaterials |
 			aiProcess_OptimizeMeshes);
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
@@ -181,12 +180,30 @@ namespace ChiefEngine {
 			aiString name;
 			source->Get(AI_MATKEY_NAME, name);
 
+			instance.SetName(name.C_Str());
+
 			const MaterialData& data = instance.GetData();
 			std::cout << "  [" << i << "] " << name.C_Str()
 				<< " | color: " << data.baseColor.r << ", " << data.baseColor.g << ", " << data.baseColor.b << ", " << data.baseColor.a
 				<< " | shininess: " << data.shininess
 				<< " | texture: " << (path.length > 0 ? path.C_Str() : "none")
 				<< std::endl;
+		}
+	}
+
+	void Model::UpdateGui() {
+		Resource::UpdateGui();
+
+		ImGui::TextColored({ 0, 1, 0, 1 }, "Meshes");
+		ImGui::Separator();
+		for (short index = 0; index < m_meshes.size(); index++) {
+			ImGui::Text("Mesh [%d]: Material[%d]", index, m_meshes[index].materialIndex);
+		}
+
+		ImGui::TextColored({ 0, 1, 0, 1 }, "Materials");
+		ImGui::Separator();
+		for (short index = 0; index < m_materials.size(); index++) {
+			ImGui::Text("Material [%d]: %s", index, m_materials[index].GetName().c_str());
 		}
 	}
 }

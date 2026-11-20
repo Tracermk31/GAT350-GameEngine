@@ -37,7 +37,7 @@ namespace ChiefEngine {
 		// texture slots in sampler order, slot 0 = register(t0, space2)
 		JSON_READ_MEMBER(document, "textures", m_textureSlots);
 
-		m_defaultTexture = Resources().Get<Texture>("textures/default.png", renderer);
+		m_defaultTexture = Resources().Get<Texture>("Textures/default.png", renderer);
 		if (!m_defaultTexture) {
 			std::cerr << "Could not load default texture for Material: " << filename << std::endl;
 			return false;
@@ -76,5 +76,18 @@ namespace ChiefEngine {
 	int Material::GetTextureSlot(const std::string& name) const {
 		auto it = std::find(m_textureSlots.begin(), m_textureSlots.end(), name);
 		return (it != m_textureSlots.end()) ? (int)std::distance(m_textureSlots.begin(), it) : -1;
+	}
+
+	void Material::UpdateGui() {
+		ImGui::TextColored({ 0, 1, 0, 1 }, "Shaders");
+		ImGui::Separator();
+		ImGui::Text("Vertex Shader: %s", m_vertexShader->GetName().c_str());
+		ImGui::Text("Fragment Shader: %s", m_fragmentShader->GetName().c_str());
+
+		ImGui::TextColored({ 0, 1, 0, 1 }, "Texture Slots");
+		ImGui::Separator();
+		for (short index = 0; index < m_textureSlots.size(); index++) {
+			ImGui::Text("Material [%d]: %s", index, m_textureSlots[index].c_str());
+		}
 	}
 }
